@@ -10,31 +10,27 @@
 #include <base/global_pose.pb.h>
 #include <iostream>
 #include <armadillo>
+#include <memory>
 
 #include "GlobalPositionInfon.hh"
 #include "LocalPosen.hh"
 #include "HDLadarDatan.hh"
 
+#include "transform/GaussCoorConv.h"
+
+
+#include <pcl/filters/passthrough.h>
+#include <pcl/io/pcd_io.h>
+
+#include <iomanip>
+#include "common/Common/Commonfig.hh"
+
+#include "common/Common/ParamServer.hh"
+#include "common/Common/Algorithm/AutoLoopDetect.hh"
+#include "common/Common/MapDataFrame/MapDataStruct.hh"
+
+
 #include "send_data.h"
-
-struct VelodynePointXYZIRT
-{
-  PCL_ADD_POINT4D
-  PCL_ADD_INTENSITY;
-  uint16_t ring;
-  float time;
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-} EIGEN_ALIGN16;
-POINT_CLOUD_REGISTER_POINT_STRUCT (VelodynePointXYZIRT,
-                                   (float, x, x) (float, y, y) (float, z, z)(float, intensity, intensity)
-                                   (uint16_t, ring, ring) (float, time, time)
-                                   )
-struct ScanXYZIRT{
-  double stime;
-  double etime;
-  pcl::PointCloud<VelodynePointXYZIRT>::Ptr cloud;
-};
-
 class GlobalPose {
 public:
   double time;
@@ -45,61 +41,34 @@ class LocalPose {
 public:
   double time;
   LOCALPOSE_MSG lp;
-//  LOCAL_POS_DATA lp;
 };
-
-struct SyncRawScan{
-  ScanXYZIRT lidar;
-//  LOCALPOSE_MSG lp;
-  GLOBALPOSITIONINFO_MSG gp;
-  HDLADARDATA_MSG lp;
-
-  double time;
-};
-
-//using XSLidarPoint = pcl::PointXYZI;
-using PointIRT = VelodynePointXYZIRT;
-using PointI = pcl::PointXYZI;
-using PointIRTPtr =  pcl::PointCloud<PointIRT>::Ptr;
-//using LocalPose = LOCAL_POS_DATA;// LocalPosen
-//using GlobalPose = PositionData;// GlobalPositionInfon
-//using LidarData = xsproto::perception::LidarData;
 
 class DataAnalysis {
 public:
   DataAnalysis();
   DataAnalysis(std::string path);
   ~DataAnalysis();
-  // 解析函数
-  void Analysis();
+  void Analysis();   // 解析函数
 private:
-
   // 数据关联
   bool findLpAtStamp(double stamp, LocalPose &outLP);
   bool findGpAtStamp(double stamp, GlobalPose& outGP);
-  GlobalPose SlerpGPRPY(GlobalPose,GlobalPose,double);
-  GlobalPose SlerpGPXYZ(GlobalPose,GlobalPose,double);
-  LocalPose SlerpLPRPY(LocalPose,LocalPose,double);
-  LocalPose SlerpLPXYZ(LocalPose,LocalPose,double);
+
   // 线程函数
   void threadDecodeIns();        // GP 读取 Ins.txt
   void threadDecodeLidar();      // Lidar 读取
   void threadDecodeLocalPose();  // LP 读取 LPose.txt
+  void threadReciveMap();  // 接收MapPosition
 
 public:
   std::string mDataPath;   // 读取离线数据的路径
-  // data
-//  std::vector <GLOBALPOSITIONINFO_MSG> global_position_datas_{};
-//  std::vector <LOCALPOSE_MSG > local_pose_datas_{};
-//  std::deque<GLOBALPOSITIONINFO_MSG> global_position_datas_;
-//  std::deque<LOCALPOSE_MSG> local_pose_datas_;
 
-//  std::deque<SyncRawScan>* mLidarQue = nullptr;
-//  std::deque<SyncRawScan> mLidarQue{};
-  std::deque<HDLADARDATA_MSG> mLidarQue{};
+
+  SendData* send = nullptr;
 
 private:
 
+  bool endthread_ = false;
   // 参数
   int mImuSource = 0;      // 0 LocalPose/100;  1 LocalPose/10000;   2 VehicleStatus (分别对应LP车载，LP背包，VS车载的情况)
   int mLpGpAvailable = 0;  // 0 Lp Gp 都有效; 1 仅Lp有效; 2 仅Gp有效
@@ -111,18 +80,16 @@ private:
   std::thread* mThreadDecodeIns = nullptr;
   std::thread* mThreadDecodeLidar = nullptr;
   std::thread* mThreadDecodeLocalPose = nullptr;
-  // lidar数据
-//  HDLADARDATA_MSG *lidar_data_{};
-
+  std::thread* mThreadReciveMap = nullptr;
   //内部容器  用作Lidar帧关联Lp Gp数据时间同步使用
   std::deque<GlobalPose> mGlobalPoseQue;
   std::deque<LocalPose> mLocalPoseQue;
 
+  std::deque<GlobalPose> mGlobalPoseQue_temp;
+  std::deque<LocalPose> mLocalPoseQue_temp;
   /*---------- 内部锁 ----------*/
   std::mutex mLocalPoseMutex;
   std::mutex mGlobalPoseMutex;
-//  std::mutex* mLidarMutex = nullptr;
-  std::mutex mLidarMutex;
 };
 
 #endif

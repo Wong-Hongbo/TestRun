@@ -6,40 +6,36 @@
 #include <thread>
 #include <vector>
 
-#include "GlobalPositionInfon.hh"
-#include "LocalPosen.hh"
 #include "HDLadarDatan.hh"
+#include "MapPositionn.hh"
+//#include "
 
 
-#include "data_analysis.h"
+//#include "data_analysis.h"
 
 class SendData {
 public:
   SendData();
-  SendData(std::deque<HDLADARDATA_MSG>,int);
+  SendData(int);
   ~SendData();
 
-  void Send();
-  void SendLocalPose(HDLADARDATA_MSG);
+  void SendHDLadarData(HDLADARDATA_MSG);
+  void SendMapPosition(MAP_POSITION_MSG);
+  void SendGlobalPosition(GLOBALPOSITIONINFO_MSG);
+  void SendLocalPose(LOCALPOSE_MSG);
+
+  int ReceiveMapPosition(MAP_POSITION_MSG&);
 private:
   void InitNml(int);
-//  void SendGlobalPosition();
 
 private:
-  NML *m_local_response_channel_;
-  LOCALPOSE_MSG *m_local_response_data_;
-  NML *m_global_response_channel_;
-  GLOBALPOSITIONINFO_MSG *m_global_response_data_;
+  NML *m_ladar_response_channel_{};
+  NML *m_map_response_channel_{};
+  NML *m_global_response_channel_{};
+  NML *m_local_response_channel_{};
+  NML *m_map_request_channel_{};
+  MAP_POSITION_MSG *map_localizer_data_{};
 
-
-  // 线程
-//  std::thread* mThreadSendGP = nullptr;
-  std::thread* mThreadSendLP = nullptr;
-
-  // data
-  std::deque<HDLADARDATA_MSG> mLidarQue;
-//  std::vector <GLOBALPOSITIONINFO_MSG> global_position_datas_{};
-//  std::vector <LOCALPOSE_MSG > local_pose_datas_{};
 };
 
 #endif

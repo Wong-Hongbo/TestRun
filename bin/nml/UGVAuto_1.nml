@@ -1,0 +1,33 @@
+
+# Buffers
+# Name                     Type       Host                    size       neut?          RPC#                    buffer#          MP     . . .
+# -----------------------以下为传感器buffer，只支持本地读写--------------#
+
+#车辆自身状态Buffer
+B GlobalPositionBuffer           SHMEM     localhost               20480      0        *     001           *         1001 bsem=11001  TCP=11001  xdr
+B LocalPose                      SHMEM     localhost               10240      0        *     002           *         1002 bsem=11002  TCP=11002  xdr
+
+
+#-------------------------------------------------------------------------------------------#
+#                                                                                           #
+#                                                                                           #
+#                                  下面是进程处理                                             #
+#                                                                                           #
+#                                                                                           #
+#-------------------------------------------------------------------------------------------#
+
+# Processes
+# Name                 Buffer                       Type         Host                    Ops     server?      timeout     master?     cnum
+
+
+# Data
+P TestRun            LocalPose                     LOCAL      localhost     W       0             0.1         1        106
+P TestRun            GlobalPositionBuffer          LOCAL      localhost     W       0             0.1         1        106
+
+# MP
+P MP            LocalPose                          LOCAL      localhost     R       0             0.1         1        107
+P MP            GlobalPositionBuffer               LOCAL      localhost     R       0             0.1         1        107
+
+# LP&GP
+P LP            LocalPose                          LOCAL      localhost     R       0             0.1         1        108
+P LP            GlobalPositionBuffer               LOCAL      localhost     R       0             0.1         1        108

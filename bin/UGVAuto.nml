@@ -1,0 +1,834 @@
+# NML Configuration file for the UGVAuto application
+#
+# modify by mengdeyuan 2020-06-24  phone: 18565590904
+#
+#
+# Buffers
+# Name                     Type       Host                    size       neut?          RPC#                    buffer#          MP     . . .
+# -----------------------以下为传感器buffer，只支持本地读写--------------#
+#车辆自身状态Buffer
+B GlobalPositionBuffer           SHMEM     localhost               20480      0        *     001           *         1001 bsem=11001  TCP=11001  xdr
+B LocalPose                      SHMEM     localhost               10240      0        *     002           *         1002 bsem=11002  TCP=11002  xdr
+
+#B LadarMiddleMiddleTop1           SHMEM     localhost             1280000      0        *     300           *         1003 bsem=11300  TCP=11300  xdr
+
+
+B FusionPositionScore                  SHMEM     localhost               20480      0        *     284           *         1284 bsem=11301  TCP=11301  xdr
+
+
+#激光雷达Buffer
+B LadarMiddleMiddleTop           SHMEM     localhost             1280000      0        *     003           *         1003 bsem=11003  TCP=11003  xdr
+B LadarMiddleFrontBottom         SHMEM     localhost             1280000      0        *     004           *         1004 bsem=11004  TCP=11004  xdr
+B LadarRightFrontBottom          SHMEM     localhost             1280000      0        *     005           *         1005 bsem=11005  TCP=11005  xdr
+B LadarRightMiddleBottom         SHMEM     localhost             1280000      0        *     006           *         1006 bsem=11006  TCP=11006  xdr
+B LadarRightRearBottom           SHMEM     localhost             1280000      0        *     007           *         1007 bsem=11007  TCP=11007  xdr
+B LadarMiddleRearBottom          SHMEM     localhost             1280000      0        *     008           *         1008 bsem=11008  TCP=11008  xdr
+B LadarLeftRearBottom            SHMEM     localhost             1280000      0        *     009           *         1009 bsem=11009  TCP=11009  xdr
+B LadarLeftMiddleBottom          SHMEM     localhost             1280000      0        *     010           *         1010 bsem=11010  TCP=11010  xdr
+B LadarLeftFrontBottom           SHMEM     localhost             1280000      0        *     011           *         1011 bsem=11011  TCP=11011  xdr
+B LadarMiddleFrontTop            SHMEM     localhost             1280000      0        *     012           *         1012 bsem=11012  TCP=11012  xdr
+B LadarRightFrontTop             SHMEM     localhost             1280000      0        *     013           *         1013 bsem=11013  TCP=11013  xdr
+B LadarRightMiddleTop            SHMEM     localhost             1280000      0        *     014           *         1014 bsem=11014  TCP=11014  xdr
+B LadarRightRearTop              SHMEM     localhost             1280000      0        *     015           *         1015 bsem=11015  TCP=11015  xdr
+B LadarMiddleRearTop             SHMEM     localhost             1280000      0        *     016           *         1016 bsem=11016  TCP=11016  xdr
+B LadarLeftRearTop               SHMEM     localhost             1280000      0        *     017           *         1017 bsem=11017  TCP=11017  xdr
+B LadarLeftMiddleTop             SHMEM     localhost             1280000      0        *     018           *         1018 bsem=11018  TCP=11018  xdr
+B LadarLeftFrontTop              SHMEM     localhost             1280000      0        *     019           *         1019 bsem=11019  TCP=11019  xdr
+
+#浮点形激光雷达buffer，用于反光板定位和高精标定
+B LadarFloatMiddleMiddleTop      SHMEM     localhost             2560000      0        *     020           *         1020 bsem=11020  TCP=11020  xdr
+B LadarFloatMiddleFrontBottom    SHMEM     localhost             2560000      0        *     021           *         1021 bsem=11021  TCP=11021  xdr
+B LadarFloatRightFrontBottom     SHMEM     localhost             2560000      0        *     022           *         1022 bsem=11022  TCP=11022  xdr
+B LadarFloatRightMiddleBottom    SHMEM     localhost             2560000      0        *     023           *         1023 bsem=11023  TCP=11023  xdr
+B LadarFloatRightRearBottom      SHMEM     localhost             2560000      0        *     024           *         1024 bsem=11024  TCP=11024  xdr
+B LadarFloatMiddleRearBottom     SHMEM     localhost             2560000      0        *     025           *         1025 bsem=11025  TCP=11025  xdr
+B LadarFloatLeftRearBottom       SHMEM     localhost             2560000      0        *     026           *         1026 bsem=11026  TCP=11026  xdr
+B LadarFloatLeftMiddleBottom     SHMEM     localhost             2560000      0        *     027           *         1027 bsem=11027  TCP=11027  xdr
+B LadarFloatLeftFrontBottom      SHMEM     localhost             2560000      0        *     028           *         1028 bsem=11028  TCP=11028  xdr
+B LadarFloatMiddleFrontTop       SHMEM     localhost             2560000      0        *     029           *         1029 bsem=11029  TCP=11029  xdr
+B LadarFloatRightFrontTop        SHMEM     localhost             2560000      0        *     030           *         1030 bsem=11030  TCP=11030  xdr
+B LadarFloatRightMiddleTop       SHMEM     localhost             2560000      0        *     031           *         1031 bsem=11031  TCP=11031  xdr
+B LadarFloatRightRearTop         SHMEM     localhost             2560000      0        *     032           *         1032 bsem=11032  TCP=11032  xdr
+B LadarFloatMiddleRearTop        SHMEM     localhost             2560000      0        *     033           *         1033 bsem=11033  TCP=11033  xdr
+B LadarFloatLeftRearTop          SHMEM     localhost             2560000      0        *     034           *         1034 bsem=11034  TCP=11034  xdr
+B LadarFloatLeftMiddleTop        SHMEM     localhost             2560000      0        *     035           *         1035 bsem=11035  TCP=11035  xdr
+B LadarFloatLeftFrontTop         SHMEM     localhost             2560000      0        *     036           *         1036 bsem=11036  TCP=11036  xdr
+#多雷达融合buffer，最多支持256×2100个点
+B SyncLidarData                  SHMEM     localhost             5120000      0        *     037           *         1037 bsem=11037  TCP=11037  xdr
+
+#单目相机Buffer
+B CameraMiddleFrontLong          SHMEM     localhost             7680000      0        *     040           *         1040 bsem=11040  TCP=11040  xdr
+B CameraMiddleFrontShort         SHMEM     localhost             7680000      0        *     041           *         1041 bsem=11041  TCP=11041  xdr
+B CameraMiddleFrontSpecial       SHMEM     localhost             7680000      0        *     042           *         1042 bsem=11042  TCP=11042  xdr
+B CameraRightMiddle              SHMEM     localhost             7680000      0        *     043           *         1043 bsem=11043  TCP=11043  xdr
+B CameraMiddleRear               SHMEM     localhost             7680000      0        *     044           *         1044 bsem=11044  TCP=11044  xdr
+B CameraLeftMiddle               SHMEM     localhost             7680000      0        *     045           *         1045 bsem=11045  TCP=11045  xdr
+
+#双目相机Buffer
+B StereoMiddleFront              SHMEM     localhost            15360000      0        *     050           *         1050 bsem=11050  TCP=11050  xdr
+B StereoRightMiddle              SHMEM     localhost            15360000      0        *     051           *         1051 bsem=11051  TCP=11051  xdr
+B StereoMiddleRear               SHMEM     localhost            15360000      0        *     052           *         1052 bsem=11052  TCP=11052  xdr
+B StereoLeftMiddle               SHMEM     localhost            15360000      0        *     053           *         1053 bsem=11053  TCP=11053  xdr
+
+#超声Buffer
+
+#图像雷达融合Buffer
+B SyncFusionData                 SHMEM     localhost             15360000      0        *     056           *         1056 bsem=11056  TCP=11056  xdr
+
+#毫米波雷达Buffer
+B RadarMiddleFrontBottom         SHMEM     localhost              102400      0        *     060           *         1060 bsem=11060  TCP=11060  xdr
+B RadarLeftFrontBottom           SHMEM     localhost              102400      0        *     061           *         1061 bsem=11061  TCP=11061  xdr
+B RadarLeftMiddleBottom          SHMEM     localhost              102400      0        *     062           *         1062 bsem=11062  TCP=11062  xdr
+B RadarLeftRearBottom            SHMEM     localhost              102400      0        *     063           *         1063 bsem=11063  TCP=11063  xdr
+B RadarMiddleRearBottom          SHMEM     localhost              102400      0        *     064           *         1064 bsem=11064  TCP=11064  xdr
+B RadarRightRearBottom           SHMEM     localhost              102400      0        *     065           *         1065 bsem=11065  TCP=11065  xdr
+B RadarRightMiddleBottom         SHMEM     localhost              102400      0        *     066           *         1066 bsem=11066  TCP=11066  xdr
+B RadarRightFrontBottom          SHMEM     localhost              102400      0        *     067           *         1067 bsem=11067  TCP=11067  xdr
+#多毫米波融合buffer
+B SyncRadarData                  SHMEM     localhost              204800      0        *     068           *         1068 bsem=11068  TCP=11068  xdr
+
+#3D目标
+B LidarObjectInfo                SHMEM     localhost              256000      0        *     070           *         1070 bsem=11070  TCP=11070  xdr
+B FrontObjectInfo                SHMEM     localhost              256000      0        *     071           *         1071 bsem=11071  TCP=11071  xdr
+B RearObjectInfo                 SHMEM     localhost              256000      0        *     072           *         1072 bsem=11072  TCP=11072  xdr
+B CameraObjectInfo               SHMEM     localhost              256000      0        *     073           *         1073 bsem=11073  TCP=11073  xdr
+B RadarObjectInfo                SHMEM     localhost              256000      0        *     074           *         1074 bsem=11074  TCP=11074  xdr
+B FusionObjectInfo               SHMEM     localhost              512000      0        *     075           *         1075 bsem=11075  TCP=11075  xdr
+
+#障碍图
+B AroundObstacleMap              SHMEM     localhost             1024000      0        *     080           *         1080 bsem=11080  TCP=11080  xdr
+B FrontObstacleMap               SHMEM     localhost             1024000      0        *     081           *         1081 bsem=11081  TCP=11081  xdr
+B RearObstacleMap                SHMEM     localhost             1024000      0        *     082           *         1082 bsem=11082  TCP=11082  xdr
+B UltraSonicObstacleMap          SHMEM     localhost             1024000      0        *     083           *         1083 bsem=11083  TCP=11083  xdr
+B FusionObstacleMap              SHMEM     localhost             1024000      0        *     084           *         1084 bsem=11084  TCP=11084  xdr
+
+#定位buffer--------------------------#
+B MapPosition                    SHMEM     localhost               20480      0        *     100           *         1100 bsem=11100  TCP=11100  xdr
+B MapPositionInit                SHMEM     localhost               20480      0        *     227           *         1227 bsem=11227 TCP=11227  xdr
+
+#感知buffer--------------------------#
+#识别目标
+B LidarObjectInfo                SHMEM     localhost              512000      0        *     101           *         1101 bsem=11101  TCP=11101  xdr
+B FrontLidarObjectInfo           SHMEM     localhost              512000      0        *     104           *         1102 bsem=11104  TCP=11102  xdr
+B CameraObjectInfo               SHMEM     localhost              512000      0        *     103           *         1103 bsem=11103  TCP=11103  xdr
+B RadarObjectInfo                SHMEM     localhost              512000      0        *     102           *         1104 bsem=11102  TCP=11104  xdr
+B UltrasonicObjectInfo           SHMEM     localhost              512000      0        *     105           *         1105 bsem=11105  TCP=11105  xdr
+B FusionObjectInfo               SHMEM     localhost             1024000      0        *     106           *         1106 bsem=11106  TCP=11106  xdr
+
+#局部概率占据图
+B LocalProbabilityMap            SHMEM     localhost             2048000      0        *     107           *         1107 bsem=11107  TCP=11107  xdr
+
+#红绿灯
+B TrafficLightInfo               SHMEM     localhost              102400      0        *     108           *         1108 bsem=11108  TCP=11108  xdr
+
+#交通标志
+B TrafficSignInfo                SHMEM     localhost              102400      0        *     109           *         1109 bsem=11109  TCP=11109  xdr
+
+#场景理解
+B SenceSegInfo                   SHMEM     localhost              512000      0        *     110           *         1110 bsem=11110  TCP=11110  xdr
+
+#车道线
+B LaneMarkingInfo                SHMEM     localhost              102400      0        *     111           *         1111 bsem=11111  TCP=11111  xdr
+
+#预测#
+# 融合输出的三个地图
+B EntityMap                     SHMEM      localhost             409600       0        *     112           *         1112 bsem=11112 TCP=11112  xdr
+B LocalDEMMap                   SHMEM      localhost             512000       0        *     113           *         1113 bsem=11113 TCP=11113  xdr
+B LocalAttributeMap             SHMEM      localhost            1024000       0        *     114           *         1114 bsem=11114 TCP=11114  xdr
+B PredictionData                SHMEM      localhost             512000       0        *     115           *         1115 bsem=11115 TCP=11115  xdr
+
+#旧buffer， 暂时保留#
+B VehicleInfo                    SHMEM     localhost             204800       0        *     116           *         1116 bsem=11116 TCP=11116  xdr
+B PositiveObstacle               SHMEM     localhost            1024000       0        *     117           *         1117 bsem=11117 TCP=11117  xdr
+B TrafficLight                   SHMEM     localhost              20480       0        *     118           *         1118 bsem=11118 TCP=11118  xdr
+
+
+#全局任务
+B TaskList                       SHMEM     localhost              204800      0        *     119           *         1119 bsem=11119 TCP=11119  xdr
+B TaskListProto                  SHMEM     localhost              204800      0        *     120           *         1120 bsem=11120 TCP=11120  xdr
+
+
+#局部规划
+B LocalPathInfo                  SHMEM     localhost              20480       0        *     121           *         1121 bsem=11121 TCP=11121  xdr
+B LocalPlanState                 SHMEM     localhost              20480       0        *     122           *         1122 bsem=11122 TCP=11122  xdr
+B LocalPlanCmd                   SHMEM     localhost              20480       0        *     123           *         1123 bsem=11123 TCP=11123  xdr
+
+#矢量图
+B LocalHDMap                     SHMEM     localhost              5000000     0        *     124           *         1124 bsem=11124 TCP=11124  xdr
+B TrafficMap                     SHMEM     localhost              51200       0        *     125           *         1125 bsem=11125 TCP=11125  xdr
+B TrafficMapIntersection         SHMEM     localhost              5000000     0        *     126           *         1126 bsem=11126 TCP=11126  xdr
+
+
+#超声
+B UltraSonicData                 SHMEM     localhost               10240      0        *     130           *         1130 bsem=11130 TCP=11130  xdr
+
+
+#业务交互
+B MapperRequest                  SHMEM     localhost               10240      0        *     200           *         1200 bsem=11200 TCP=11200  xdr 
+B MapperResponse                 SHMEM     localhost               5000000      0        *     201           *         1201 bsem=11201 TCP=11201  xdr 
+B RouteRecordRequest             SHMEM     localhost               10240      0        *     202           *         1202 bsem=11202 TCP=11202  xdr queue
+B RouteRecordResponse            SHMEM     localhost               10240      0        *     203           *         1203 bsem=11203 TCP=11203  xdr queue
+B MapSyncRequest                 SHMEM     localhost               10240      0        *     204           *         1204 bsem=11204 TCP=11204  xdr
+B MapSyncResponse                SHMEM     localhost               10240      0        *     205           *         1205 bsem=11205 TCP=11205  xdr
+B LocalisationInitRequest        SHMEM     localhost               20480      0        *     206           *         1206 bsem=11206 TCP=11206  xdr queue
+B LocalisationInitResponse       SHMEM     localhost               40960      0        *     207           *         1207 bsem=11207 TCP=11207  xdr queue
+B MapperState                    SHMEM     localhost               10240      0        *     208           *         1208 bsem=11208 TCP=11208  xdr queue
+B TrafficMapControlRequest       SHMEM     localhost               5000000    0        *     209           *         1209 bsem=11209 TCP=11209  xdr
+B TrafficMapControlReply         SHMEM     localhost               5000000    0        *     210           *         1210 bsem=11210 TCP=11210  xdr
+B FaultInfo                      SHMEM     localhost               51200      0        *     211           *         1211 bsem=11211 TCP=11211  xdr queue
+B GlobalPathControlCommand       SHMEM     localhost               5120       0        *     212           *         1212 bsem=11212 TCP=11212  xdr queue
+B GlobalPathControlResponse      SHMEM     localhost               5120       0        *     213           *         1213 bsem=11213 TCP=11213  xdr queue
+B LocalizerInitControlRequest    SHMEM     localhost               5120       0        *     214           *         1214 bsem=11214 TCP=11214  xdr queue
+B LocalizerInitControlResponse   SHMEM     localhost               5120       0        *     215           *         1215 bsem=11215 TCP=11215  xdr queue
+B MapperxsControlRequest         SHMEM     localhost               5120       0        *     216           *         1216 bsem=11216 TCP=11216  xdr queue
+B MapperxsControlResponse        SHMEM     localhost               5120       0        *     217           *         1217 bsem=11217 TCP=11217  xdr queue
+B MapLocalizer3DControlRequest   SHMEM     localhost               5120       0        *     218           *         1218 bsem=11218 TCP=11218  xdr queue
+B MapLocalizer3DControlResponse  SHMEM     localhost               5120       0        *     219           *         1219 bsem=11219 TCP=11219  xdr queue
+B SensorControlRequest           SHMEM     localhost               51200      0        *     220           *         1220 bsem=11220 TCP=11220  xdr queue
+B SensorControlResponse          SHMEM     localhost               51200      0        *     221           *         1221 bsem=11221 TCP=11221  xdr queue
+
+#新进测试程序
+B FusionPosition                 SHMEM     localhost               20480      0        *     222           *         1222 bsem=11222  TCP=11222  xdr
+B LidarPosition                  SHMEM     localhost               20480      0        *     223           *         1223 bsem=11223  TCP=11223  xdr
+B RefAttBuffer                   SHMEM     localhost               20481      0        *     224           *         1224 bsem=11224  TCP=11224  xdr
+B MagBuffer                  	 SHMEM     localhost               20481      0        *     225           *         1225 bsem=11225  TCP=11225  xdr
+B FusionPosition2                SHMEM     localhost               20482      0        *     226           *         1226 bsem=11226  TCP=11226  xdr
+B ControlCommandCmd              SHMEM     localhost               51200      0        *     227           *         1227 bsem=11227  TCP=11227   xdr
+
+#数据采集
+B NavServerInsideCmd         SHMEM     localhost            51200     	0       *     268        *        1231 bsem=11231 TCP=11231	xdr
+B NavServerControlRequest        SHMEM     localhost               51200      0        *     273           *         1273 bsem=11273 TCP=11273  xdr
+B NavServerControlResponse       SHMEM     localhost               51200      0        *     274           *         1274 bsem=11274 TCP=11274  xdr
+
+
+#-------------------------------------------------------------------------------------------#
+#                                                                                           #
+#                                                                                           #
+#                                 下面是进程处理                                             #
+#                                                                                           #
+#                                                                                           #
+#-------------------------------------------------------------------------------------------#
+
+# Processes
+# Name                 Buffer                       Type         Host                    Ops     server?      timeout     master?     cnum
+#-------------传感器的接收进程-------------------#
+# MonoCameraReceiver
+P MonoCameraReceiver                LocalPose                          LOCAL      localhost     R         0             0.1         1        100
+P MonoCameraReceiver                CameraMiddleFrontLong              LOCAL      localhost     RW        0             0.1         1        100
+P MonoCameraReceiver                CameraMiddleFrontShort             LOCAL      localhost     RW        0             0.1         1        100
+P MonoCameraReceiver                CameraMiddleFrontSpecial           LOCAL      localhost     RW        0             0.1         1        100
+P MonoCameraReceiver                CameraRightMiddle                  LOCAL      localhost     RW        0             0.1         1        100
+P MonoCameraReceiver                CameraMiddleRear                   LOCAL      localhost     RW        0             0.1         1        100
+P MonoCameraReceiver                CameraLeftMiddle                   LOCAL      localhost     RW        0             0.1         1        100
+
+
+# StereoCameraReceiver
+P StereoCameraReceiver              LocalPose                          LOCAL      localhost     R         0             0.1         1        101
+P StereoCameraReceiver              StereoMiddleFront                  LOCAL      localhost     RW        0             0.1         1        101
+P StereoCameraReceiver              StereoRightMiddle                  LOCAL      localhost     RW        0             0.1         1        101
+P StereoCameraReceiver              StereoMiddleRear                   LOCAL      localhost     RW        0             0.1         1        101
+P StereoCameraReceiver              StereoLeftMiddle                   LOCAL      localhost     RW        0             0.1         1        101
+
+
+# LidarReceiver
+P LidarReceiver                     LocalPose                          LOCAL      localhost     R         0             0.1         1        102
+P LidarReceiver                     GlobalPositionBuffer               LOCAL      localhost     R         0             0.1         1        102
+P LidarReceiver                     LadarMiddleMiddleTop               LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarMiddleFrontBottom             LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarRightFrontBottom              LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarRightMiddleBottom             LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarRightRearBottom               LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarMiddleRearBottom              LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarLeftRearBottom                LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarLeftMiddleBottom              LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarLeftFrontBottom               LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarMiddleFrontTop                LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarRightFrontTop                 LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarRightMiddleTop                LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarRightRearTop                  LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarMiddleRearTop                 LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarLeftRearTop                   LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarLeftMiddleTop                 LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarLeftFrontTop                  LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatMiddleMiddleTop          LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatMiddleFrontBottom        LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatRightFrontBottom         LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatRightMiddleBottom        LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatRightRearBottom          LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatMiddleRearBottom         LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatLeftRearBottom           LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatLeftMiddleBottom         LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatLeftFrontBottom          LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatMiddleFrontTop           LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatRightFrontTop            LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatRightMiddleTop           LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatRightRearTop             LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatMiddleRearTop            LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatLeftRearTop              LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatLeftMiddleTop            LOCAL      localhost     RW        0             0.1         1        102
+P LidarReceiver                     LadarFloatLeftFrontTop             LOCAL      localhost     RW        0             0.1         1        102
+
+
+# FusionSynchronizator
+P FusionSynchronizator              LadarMiddleMiddleTop               LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarMiddleFrontBottom             LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarRightFrontBottom              LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarRightMiddleBottom             LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarRightRearBottom               LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarMiddleRearBottom              LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarLeftRearBottom                LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarLeftMiddleBottom              LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarLeftFrontBottom               LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarMiddleFrontTop                LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarRightFrontTop                 LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarRightMiddleTop                LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarRightRearTop                  LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarMiddleRearTop                 LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarLeftRearTop                   LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarLeftMiddleTop                 LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              LadarLeftFrontTop                  LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              CameraMiddleFrontLong              LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              CameraMiddleFrontShort             LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              CameraMiddleFrontSpecial           LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              CameraRightMiddle                  LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              CameraMiddleRear                   LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              CameraLeftMiddle                   LOCAL      localhost     R         0             0.1         1        118
+P FusionSynchronizator              SyncFusionData                     LOCAL      localhost     RW        0             0.1         1        118
+
+
+# LidarSynchronizator
+P LidarSynchronizator               LadarMiddleMiddleTop               LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarMiddleFrontBottom             LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarRightFrontBottom              LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarRightMiddleBottom             LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarRightRearBottom               LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarMiddleRearBottom              LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarLeftRearBottom                LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarLeftMiddleBottom              LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarLeftFrontBottom               LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarMiddleFrontTop                LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarRightFrontTop                 LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarRightMiddleTop                LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarRightRearTop                  LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarMiddleRearTop                 LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarLeftRearTop                   LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarLeftMiddleTop                 LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               LadarLeftFrontTop                  LOCAL      localhost     R         0             0.1         1        119
+P LidarSynchronizator               SyncLidarData                      LOCAL      localhost     RW        0             0.1         1        119
+
+
+# RadarReceiver
+P RadarReceiver                     LocalPose                          LOCAL      localhost     R         0             0.1         1        120
+P RadarReceiver                     RadarMiddleFrontBottom             LOCAL      localhost     RW        0             0.1         1        120
+P RadarReceiver                     RadarLeftFrontBottom               LOCAL      localhost     RW        0             0.1         1        120
+P RadarReceiver                     RadarLeftMiddleBottom              LOCAL      localhost     RW        0             0.1         1        120
+P RadarReceiver                     RadarLeftRearBottom                LOCAL      localhost     RW        0             0.1         1        120
+P RadarReceiver                     RadarMiddleRearBottom              LOCAL      localhost     RW        0             0.1         1        120
+P RadarReceiver                     RadarRightRearBottom               LOCAL      localhost     RW        0             0.1         1        120
+P RadarReceiver                     RadarRightMiddleBottom             LOCAL      localhost     RW        0             0.1         1        120
+P RadarReceiver                     RadarRightFrontBottom              LOCAL      localhost     RW        0             0.1         1        120
+
+
+P ultrasonic_input                  UltraSonicData                     LOCAL      localhost     RW        0             0.1         1        121
+P ultrasonic_input                  LocalPose                          LOCAL      localhost     R         0             0.1         1        121
+P ultrasonic_input                  GlobalPositionBuffer               LOCAL      localhost     R         0             0.1         1        121
+P ultrasonic_input                  LocalPathInfo                      LOCAL      localhost     R         0             0.1         1        121
+
+# LocalPoseInput(67)
+P LocalPoseInput                    LocalPose                          LOCAL      localhost     RW        0             0.1         1        122 
+
+# YuTongInterface
+P YuTongInterface                   GlobalPositionBuffer      LOCAL     localhost                RW       0             0.1        1        123
+P YuTongInterface                   LocalPose                 LOCAL     localhost                RW       0             0.1        1        123     
+
+#-------------环境感知处理进程-----------------#
+# LidarObjectDetector
+P LidarObjectDetector               LadarMiddleMiddleTop               LOCAL      localhost     R         0             0.1         1        200
+P LidarObjectDetector               SyncLidarData                      LOCAL      localhost     R         0             0.1         1        200
+P LidarObjectDetector               LidarObjectInfo                    LOCAL      localhost     RW        0             0.1         1        200
+P LidarObjectDetector               FilterLidarData                    LOCAL      localhost     RW        0             0.1         1        200
+
+
+# LidarObjectDetectorYT
+P LidarObjectDetectorYT             LadarMiddleMiddleTop               LOCAL      localhost     R         0             0.1         1        250
+P LidarObjectDetectorYT             SyncLidarData                      LOCAL      localhost     R         0             0.1         1        250
+P LidarObjectDetectorYT             LidarObjectInfo                    LOCAL      localhost     RW        0             0.1         1        250
+P LidarObjectDetectorYT             FilterLidarData                    LOCAL      localhost     RW        0             0.1         1        250
+
+
+# FrontObjectDetector
+P FrontObjectDetector               LadarMiddleFrontTop                LOCAL      localhost     R         0             0.1         1        251
+P FrontObjectDetector               FrontLidarObjectInfo               LOCAL      localhost     RW        0             0.1         1        251
+
+
+
+# RadarObjectDetector
+P RadarObjectDetector               RadarMiddleFrontBottom             LOCAL      localhost     R         0             0.1         1        201
+P RadarObjectDetector               RadarLeftFrontBottom               LOCAL      localhost     R         0             0.1         1        201
+P RadarObjectDetector               RadarLeftMiddleBottom              LOCAL      localhost     R         0             0.1         1        201
+P RadarObjectDetector               RadarLeftRearBottom                LOCAL      localhost     R         0             0.1         1        201
+P RadarObjectDetector               RadarMiddleRearBottom              LOCAL      localhost     R         0             0.1         1        201
+P RadarObjectDetector               RadarRightRearBottom               LOCAL      localhost     R         0             0.1         1        201
+P RadarObjectDetector               RadarRightMiddleBottom             LOCAL      localhost     R         0             0.1         1        201
+P RadarObjectDetector               RadarRightFrontBottom              LOCAL      localhost     R         0             0.1         1        201
+P RadarObjectDetector               RadarObjectInfo                    LOCAL      localhost     RW        0             0.1         1        201
+
+
+# CameraObjectDetector
+P CameraObjectDetector               CameraMiddleFrontLong             LOCAL      localhost     R         0             0.1         1        202
+P CameraObjectDetector               CameraMiddleFrontShort            LOCAL      localhost     R         0             0.1         1        202
+P CameraObjectDetector               CameraRightMiddle                 LOCAL      localhost     R         0             0.1         1        202
+P CameraObjectDetector               CameraMiddleRear                  LOCAL      localhost     R         0             0.1         1        202
+P CameraObjectDetector               CameraLeftMiddle                  LOCAL      localhost     R         0             0.1         1        202
+P CameraObjectDetector               StereoMiddleFront                 LOCAL      localhost     R         0             0.1         1        202
+P CameraObjectDetector               StereoRightMiddle                 LOCAL      localhost     R         0             0.1         1        202
+P CameraObjectDetector               StereoMiddleRear                  LOCAL      localhost     R         0             0.1         1        202
+P CameraObjectDetector               StereoLeftMiddle                  LOCAL      localhost     R         0             0.1         1        202
+P CameraObjectDetector               CameraObjectInfo                  LOCAL      localhost     RW        0             0.1         1        202
+
+
+# CLFusionObjectDetector
+P CLFusionObjectDetector             LadarMiddleMiddleTop              LOCAL      localhost     R         0             0.1         1        203
+P CLFusionObjectDetector             LadarMiddleFrontTop               LOCAL      localhost     R         0             0.1         1        203
+P CLFusionObjectDetector             CameraMiddleFrontLong             LOCAL      localhost     R         0             0.1         1        203
+P CLFusionObjectDetector             CameraMiddleFrontShort            LOCAL      localhost     R         0             0.1         1        203
+P CLFusionObjectDetector             CameraLidarObjectInfo             LOCAL      localhost     RW        0             0.1         1        203
+
+
+# PerceptionFuser
+P PerceptionFuser                    LadarMiddleMiddleTop              LOCAL      localhost     R         0             0.1         1        204
+P PerceptionFuser                    SyncLidarData                     LOCAL      localhost     R         0             0.1         1        204
+P PerceptionFuser                    LidarObjectInfo                   LOCAL      localhost     R         0             0.1         1        204
+P PerceptionFuser                    RadarObjectInfo                   LOCAL      localhost     R         0             0.1         1        204
+P PerceptionFuser                    CameraObjectInfo                  LOCAL      localhost     R         0             0.1         1        204
+P PerceptionFuser                    FrontLidarObjectInfo              LOCAL      localhost     R         0             0.1         1        204
+P PerceptionFuser                    UltrasonicObjectInfo              LOCAL      localhost     R         0             0.1         1        204
+P PerceptionFuser                    FusionObjectInfo                  LOCAL      localhost     RW        0             0.1         1        204
+
+
+# TrafficlightDetector
+P TrafficlightDetector               CameraMiddleFrontSpecial          LOCAL      localhost     R         0             0.1         1        205
+P TrafficlightDetector               TrafficLight                      LOCAL      localhost     RW        0             0.1         1        205
+P TrafficlightDetector               TrafficLightInfo                  LOCAL      localhost     RW        0             0.1         1        205
+
+#LadarObDetector
+P LadarObDetector                    VehicleInfo                       LOCAL      localhost     RW       0              0.1         1        206
+P LadarObDetector                    PositiveObstacle                  LOCAL      localhost     RW       0              0.1         1        206
+P LadarObDetector                    LocalPose                         LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    MapPosition                       LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    LadarMiddleFrontBottom            LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    LadarMiddleRearBottom             LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    LadarMiddleMiddleTop              LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    LadarLeftFrontBottom              LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    LadarRightFrontBottom             LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    RadarMiddleFrontBottom            LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    RadarRightFrontBottom             LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    RadarRightMiddleBottom            LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    RadarRightRearBottom              LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    RadarMiddleRearBottom             LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    RadarLeftRearBottom               LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    RadarLeftMiddleBottom             LOCAL      localhost     R        0              0.1         1        206
+P LadarObDetector                    RadarLeftFrontBottom              LOCAL      localhost     R        0              0.1         1        206
+
+
+# LocalThDModeling
+P LocalThDModeling                   EntityMap                         LOCAL      localhost     W        0              0.1         1        207
+P LocalThDModeling                   LocalAttributeMap                 LOCAL      localhost     W        0              0.1         1        207
+P LocalThDModeling                   LocalDEMMap                       LOCAL      localhost     W        0              0.1         1        207
+P LocalThDModeling                   PredictionData                    LOCAL      localhost     W        0              0.1         1        207
+P LocalThDModeling                   RoadCurbEdge                      LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   LocalDEM                          LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   PositiveObstacle                  LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   GlobalPositionBuffer              LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   LocalPose                         LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   RoadInfo                          LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   PedestrianInfo                    LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   VehicleInfo                       LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   FarVehicleInfo                    LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   LaneMarkingInfo                   LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   TaskList                          LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   TrafficSign                       LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   TrafficLight                      LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   TrafficMark                       LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   TrafficMap                        LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   MapPosition                       LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   ForwardRadarTracking              LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   LeftRadarTracking                 LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   RightRadarTracking                LOCAL      localhost     R        0              0.1         1        207
+P LocalThDModeling                   SingleLidarData                   LOCAL      localhost     R        0              0.1         1        207
+
+
+# MapLocalizer
+P MapLocalizer                       LadarFloatMiddleMiddleTop         LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer                       LadarMiddleMiddleTop              LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer                       LadarRightFrontTop                LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer                       LadarMiddleFrontBottom                LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer                       SyncLidarData                LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer                       GlobalPositionBuffer              LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer                       MapPosition                       LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer                       SDKMapPosition                    LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer                       MapPointCloud                     LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer                       MapPositionInit                   LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer                       MapperState                       LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer                       LocalPose                         LOCAL      localhost     RW        0              0.1         1        208
+P MapLocalizer                       TaskList                          LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer                       PathnetPcdName                          LOCAL      localhost     RW        0              0.1         1        208
+P MapLocalizer                       MapLocalizer3DControlRequest      LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer                       MapLocalizer3DControlResponse     LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer                       LidarPosition                       LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer                       LocalHDMap                        LOCAL      localhost     R        0              0.1         1       208
+
+
+P BeckonReg                          CameraMiddleFrontShort            LOCAL      localhost     R        0              0.1         1        209
+P BeckonReg                          BeckonInfo                        LOCAL      localhost     RW       0              0.1         1        209
+
+
+#MapLocalizerInit
+P MapLocalizerInit                   LadarMiddleMiddleTop              LOCAL      localhost     R        0              0.1         1        210
+P MapLocalizerInit                   LadarRightFrontTop                LOCAL      localhost     R        0              0.1         1        210
+P MapLocalizerInit                   GlobalPositionBuffer              LOCAL      localhost     R        0              0.1         1        210
+P MapLocalizerInit                   SDKMapPosition                    LOCAL      localhost     RW       0              0.1         1        210
+P MapLocalizerInit                   MapPointCloud                     LOCAL      localhost     RW       0              0.1         1        210
+P MapLocalizerInit                   MapPositionInit                   LOCAL      localhost     RW       0              0.1         1        210
+
+
+P GpLpClient                    RefAttBuffer                      LOCAL      localhost     RW        0              0.1         1        214
+P GpLpClient                    GlobalPositionBuffer              LOCAL      localhost     RW        0              0.1         1        214
+P GpLpClient                    LocalPose                         LOCAL      localhost     RW        0              0.1         1        214
+P GpLpClient                    MagBuffer                         LOCAL      localhost     RW        0              0.1         1        214
+
+P sbgTest                       LocalPose                         LOCAL      localhost     R        0              0.1         1        215
+P sbgTest                       GlobalPositionBuffer              LOCAL      localhost     R        0              0.1         1        215
+#-------------导航处理进程-----------------#
+
+P ultrasonic_show                    UltraSonicData                    LOCAL      localhost      R       0              0.1         1        300
+
+#globalpathtask
+P GlobalPathTask                     MapPosition                       LOCAL      localhost      R        0             0.1         1        301
+P GlobalPathTask                     TaskList                          LOCAL      localhost      W        0             0.1         1        301
+P GlobalPathTask                     LocalPose                         LOCAL      localhost      R        0             0.1         1        301
+P GlobalPathTask                     LocalPlanState                    LOCAL      localhost      R        0             0.1         1        301
+P GlobalPathTask                     NavigationRoad                    LOCAL      localhost      W        0             0.1         1        301
+P GlobalPathTask                     TaskInfoBuffer                    LOCAL      localhost      R        0             0.1         1        301
+P GlobalPathTask                     TaskResponseBuffer                LOCAL      localhost      W        0             0.1         1        301
+P GlobalPathTask                     TaskResponseStatesBuffer          LOCAL      localhost      W        0             0.1         1        301
+P GlobalPathTask                     GlobalPathControlCommand          LOCAL      localhost      R        0             0.1         1        301
+P GlobalPathTask                     GlobalPathControlResponse         LOCAL      localhost      W        0             0.1         1        301
+
+
+# LocalPathOptimizer(13)
+P LocalPathOptimizer                 EntityMap                         LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 LocalDEMMap                       LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 LocalAttributeMap                 LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 BehaviorList                      LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 LocalPathInfo                     LOCAL      localhost      W        0             0.1         1        302
+P LocalPathOptimizer                 GlobalPositionBuffer              LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 TaskList                          LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 TaskListProto                     LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 LocalPlanState                    LOCAL      localhost      W        0             0.1         1        302
+P LocalPathOptimizer                 LocalPose                         LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 OperatorCommandInfo               LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 LocalPlanCmd                      LOCAL      localhost      RW       0             0.1         1        302
+P LocalPathOptimizer                 TrajectoryTrackResult             LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 LaneMarkingInfo                   LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 UltraSonicData                    LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 LocalHDMap                        LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 RemotePlan                        LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 PredictionData                    LOCAL      localhost      R        0             0.1         1        302
+P LocalPathOptimizer                 MapPosition                       LOCAL      localhost      R        0             0.1         1        302
+
+
+P TrafficMapDetector                TrafficMap                         LOCAL      localhost      RW       0             0.1         1        303
+P TrafficMapDetector                MapPosition                        LOCAL      localhost      RW       0             0.1         1        303
+P TrafficMapDetector                TaskList                           LOCAL      localhost      RW       0             0.1         1        303
+P TrafficMapDetector                JDMap                              LOCAL      localhost      RW       0             0.1         1        303
+P TrafficMapDetector                LocalHDMap                         LOCAL      localhost      RW       0             0.1         1        303
+P TrafficMapDetector                TrafficMapIntersection             LOCAL      localhost      RW       0             0.1         1        303
+P TrafficMapDetector                TrafficMapControlRequest           LOCAL      localhost      RW       0             0.1         1        303
+P TrafficMapDetector                TrafficMapControlReply             LOCAL      localhost      RW       0             0.1         1        303
+
+# Data
+P TestRun            LocalPose                     LOCAL      localhost     W       0             0.1         1        304
+P TestRun            GlobalPositionBuffer          LOCAL      localhost     W       0             0.1         1        304
+P TestRun            LadarMiddleMiddleTop          LOCAL      localhost     W       0             0.1         1        304  
+P TestRun            MapPositionInit               LOCAL      localhost     W       0             0.1         1        304
+P TestRun            FusionPositionScore               LOCAL      localhost     R       0             0.1         1        304
+
+# My
+P TestRunRequest_read            LocalPose                          LOCAL      localhost     R       0             0.1         1        305
+P TestRunRequest_read            GlobalPositionBuffer               LOCAL      localhost     R       0             0.1         1        305
+P TestRunRequest_read            LadarMiddleMiddleTop               LOCAL      localhost     R       0             0.1         1        305  
+# My
+P TestRunRequest_read1            LocalPose1                          LOCAL      localhost     R       0             0.1         1        306
+P TestRunRequest_read1            GlobalPositionBuffer1               LOCAL      localhost     R       0             0.1         1        306
+P TestRunRequest_read1            LadarMiddleMiddleTop1              LOCAL      localhost     R       0             0.1         1        306 
+
+# FusionLocScore
+P FusionLocScore                       LadarMiddleMiddleTop              LOCAL      localhost     R        0              0.1         1       307
+P FusionLocScore		       FusionPositionScore               LOCAL      localhost     W        0              0.1         1       307
+P FusionLocScore		       MapPosition                       LOCAL      localhost     RW        0              0.1         1       307
+
+
+
+
+#-------------业务处理进程-----------------#
+
+P CommunicationInterface            MotionCmd                          LOCAL     localhost       W        0             0.1         1        400
+P CommunicationInterface            MapperRequest                      LOCAL     localhost       RW       0             0.1         1        400
+P CommunicationInterface            MapperResponse                     LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            MapSyncRequest                     LOCAL     localhost       RW       0             0.1         1        400
+P CommunicationInterface            MapSyncResponse                    LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            RouteRecordRequest                 LOCAL     localhost       RW       0             0.1         1        400
+P CommunicationInterface            RouteRecordResponse                LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            LocalisationInitRequest            LOCAL     localhost       RW       0             0.1         1        400
+P CommunicationInterface            LocalisationInitResponse           LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            MotionStates                       LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            MapPosition                        LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            TaskList                           LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            LocalPose                          LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            LocalPlanState                     LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            TaskInfoBuffer                     LOCAL     localhost       W        0             0.1         1        400
+P CommunicationInterface            TaskResponseBuffer                 LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            GlobalPositionBuffer               LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            LocalPathInfo                      LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            LocalPlanState                     LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            LocalAttributeMap                  LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            EntityMap                          LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            RemotePlan                         LOCAL     localhost       W        0             0.1         1        400
+P CommunicationInterface            LadarMiddleMiddleTop               LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            TaskResponseStatesBuffer           LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            LocalizerInitControlRequest        LOCAL     localhost       W        0             0.1         1        400
+P CommunicationInterface            LocalizerInitControlResponse       LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            FaultInfo                          LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            GlobalPathControlCommand           LOCAL     localhost       W        0             0.1         1        400
+P CommunicationInterface            GlobalPathControlResponse          LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            MapperxsControlRequest             LOCAL     localhost       W        0             0.1         1        400
+P CommunicationInterface            MapperxsControlResponse            LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            MapLocalizer3DControlRequest       LOCAL     localhost       W        0             0.1         1        400
+P CommunicationInterface            MapLocalizer3DControlResponse      LOCAL     localhost       R        0             0.1         1        400
+P CommunicationInterface            SensorControlRequest               LOCAL     localhost       RW       0             0.1         1        400
+P CommunicationInterface            SensorControlResponse              LOCAL     localhost       W        0             0.1         1        400
+P CommunicationInterface            TrafficMapControlRequest           LOCAL     localhost       W        0             0.1         1        400
+P CommunicationInterface            TrafficMapControlReply             LOCAL     localhost       W        0             0.1         1        400
+
+
+P FaultReceive                      FaultInfo                          LOCAL     localhost       W        0             0.1         1        401
+
+
+#----------- 服务进程，该进程应该仅存在于tx2上  ------------------#
+
+# SVR
+P MainSlaveServer                   TrafficLight                      LOCAL      localhost     RW        1             0.1         1        500
+P MainSlaveServer                   TrafficLightInfo                  LOCAL      localhost     RW        1             0.1         1        500
+P MainSlaveServer                   LidarObjectInfo                   LOCAL      localhost     RW        1             0.1         1        500
+
+#Communicator
+P Communicator            GlobalPositionBuffer              LOCAL     localhost       R        0             0.1         1        501
+P Communicator            LocalPose                         LOCAL     localhost       R        0             0.1         1        501
+P Communicator            MapPosition                       LOCAL     localhost       R        0             0.1         1        501
+P Communicator            LidarObjectInfo                   LOCAL     localhost       R        0             0.1         1        501
+P Communicator            TrafficLightInfo                  LOCAL     localhost       R        0             0.1         1        501
+
+#工具进程
+# RadarCalibrationTool(600)
+P RadarCalibrationTool              LadarMiddleMiddleTop        LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarMiddleFrontBottom      LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarRightFrontBottom       LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarRightMiddleBottom      LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarRightRearBottom        LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarMiddleRearBottom       LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarLeftRearBottom         LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarLeftMiddleBottom       LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarLeftFrontBottom        LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarMiddleFrontTop         LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarRightFrontTop          LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarRightMiddleTop         LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarRightRearTop           LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarMiddleRearTop          LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarLeftRearTop            LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              LadarLeftMiddleTop          LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              RadarMiddleFrontBottom      LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              RadarRightFrontBottom       LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              RadarRightMiddleBottom      LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              RadarRightRearBottom        LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              RadarMiddleRearBottom       LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              RadarLeftRearBottom         LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              RadarLeftMiddleBottom       LOCAL      localhost                 R        0             0.1         1        600
+P RadarCalibrationTool              RadarLeftFrontBottom        LOCAL      localhost                 R        0             0.1         1        600
+
+# TrafficLightsvr
+P SaveTest                   CameraMiddleFrontShort                      LOCAL      localhost     RW        1             0.1         1        501
+P SaveTest                   LadarMiddleMiddleTop                      LOCAL      localhost     RW        1             0.1         1        501
+
+# add by nav_server
+P nav_server   NavServerInsideCmd       LOCAL   localhost               RW      0               0.1             1       206
+P nav_server   NavServerControlRequest  LOCAL   localhost               RW      0               0.1             1       206
+P nav_server   NavServerControlResponse LOCAL   localhost               RW      0               0.1             1       206
+#Radar
+#P nav_server   RadarMiddleFrontBottom   LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   RadarRightFrontBottom    LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   RadarRightMiddleBottom   LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   RadarRightRearBottom    	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   RadarMiddleRearBottom    LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   RadarLeftRearBottom    	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   RadarLeftMiddleBottom    LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   RadarLeftFrontBottom    	LOCAL   localhost               RW      0               0.1             1       206 
+#Ladar
+P nav_server   LadarMiddleMiddleTop   	LOCAL   localhost               RW      0               0.1             1       206 
+P nav_server   LadarMiddleFrontBottom   LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarRightFrontBottom   	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarRightMiddleBottom   LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarRightRearBottom   	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarMiddleRearBottom    LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarLeftRearBottom   	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarLeftMiddleBottom   	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarLeftFrontBottom   	LOCAL   localhost               RW      0               0.1             1       206 
+P nav_server   LadarMiddleFrontTop   	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarRightFrontTop   	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarRightMiddleTop   	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarRightRearTop   	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarMiddleRearTop   	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarLeftRearTop   	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarLeftMiddleTop   	LOCAL   localhost               RW      0               0.1             1       206 
+#P nav_server   LadarLeftFrontTop   	LOCAL   localhost               RW      0               0.1             1       206 
+#单目相机Buffer
+P nav_server   CameraMiddleFrontLong    LOCAL   localhost               RW      0               0.1             1       206
+P nav_server   CameraMiddleFrontShort   LOCAL   localhost               RW      0               0.1             1       206
+P nav_server   CameraMiddleFrontSpecial LOCAL   localhost               RW      0               0.1             1       206
+P nav_server   CameraRightMiddle   	LOCAL   localhost               RW      0               0.1             1       206
+P nav_server   CameraMiddleRear   	LOCAL   localhost               RW      0               0.1             1       206
+P nav_server   CameraLeftMiddle   	LOCAL   localhost               RW      0               0.1             1       206
+#双目相机Buffer
+#P nav_server   StereoMiddleFront   	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   StereoRightMiddle   	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   StereoMiddleRear   	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   StereoLeftMiddle   	LOCAL   localhost               RW      0               0.1             1       206
+#公共Buffer
+P nav_server   LocalPose          	LOCAL   localhost               RW      0               0.1             1       206
+P nav_server   GlobalPositionBuffer     LOCAL   localhost               RW      0               0.1             1       206
+#Plan
+#P nav_server   MapPosition              LOCAL   localhost               RW      0               0.1             1       206   
+#P nav_server   LocalAttributeMap        LOCAL   localhost               RW      0               0.1             1       206  
+#P nav_server   EntityMap                LOCAL   localhost               RW      0               0.1             1       206   
+#P nav_server   PredictionData       	LOCAL   localhost               RW      0               0.1             1       206   
+#P nav_server   TaskList           	LOCAL   localhost               RW      0               0.1             1       206   
+#P nav_server   LocalPathInfo         	LOCAL   localhost               RW      0               0.1             1       206   
+#P nav_server   LocalPlanState     	LOCAL   localhost               RW      0             	0.1         	1       206
+#P nav_server   UltraSonicData     	LOCAL   localhost               RW      0             	0.1         	1       206
+#P nav_server   RemotePlan     		LOCAL   localhost               RW      0             	0.1         	1       206
+#P nav_server   LiftCmdBuffer		LOCAL	localhost		RW	0		0.1		1	206
+#P nav_server   LiftStaBuffer		LOCAL	localhost		RW	0		0.1		1	206
+#P nav_server   RoadCurbEdge		LOCAL	localhost		RW	0		0.1		1	206
+##vector
+#P nav_server   LocalHDMap              	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   JDMap              	LOCAL   localhost               RW      0               0.1             1       206  
+#P nav_server   TrafficMap              	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   TrafficMapIntersection   LOCAL   localhost               RW      0               0.1             1       206
+##communication
+#P nav_server   ControlCommandCmd   	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   GlobalPathControlCommand LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   LocalizerInitControlRequest   LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   MapLocalizer3DControlRequest  LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   MapperxsControlRequest   LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   MoveControlRequest   	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   SensorControlRequest   	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   TrafficMapControlRequest LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   GlobalStatus   		LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   LocalisationInitRequest  LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   LocalPlanVoiceInfo   	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   MapperRequest   		LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   MapSyncRequest   	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   MotionCmd   		LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   PathnetPcdName   	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   RouteRecordRequest   	LOCAL   localhost               RW      0               0.1             1       206
+#P nav_server   TaskInfoBuffer   	LOCAL   localhost               RW      0               0.1             1       206
+#sensor
+P nav_server   MagBuffer   		LOCAL   localhost               RW      0               0.1             1       206
+
+## Monitor
+P Monitor        	         SensorControl_cmd 	            LOCAL  	localhost     RW       0               0.1     	   1        207      waitformaster
+P Monitor        	         SensorControl_sts 	            LOCAL  	localhost     RW       0               0.1     	   1        207      waitformaster
+P Monitor                        LocalPose                          LOCAL       localhost     R        0               0.1         1        207      waitformaster
+P Monitor                        GlobalPositionBuffer               LOCAL       localhost     R        0               0.1         1        207      waitformaster
+P Monitor                        FusionPosition                     LOCAL       localhost     R        0               0.1         1        207      waitformaster
+
+#                                                                                                                                  
+#CalibrationController                                                                                                                                      
+P CalibrationController                      LadarFloatMiddleMiddleTop   	     LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatMiddleFrontBottom             LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatRightFrontBottom   	     LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatRightMiddleBottom             LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatRightRearBottom   	     LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatMiddleRearBottom              LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatLeftRearBottom   	     LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatLeftMiddleBottom   	     LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatLeftFrontBottom   	     LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatMiddleFrontTop   	     LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatRightFrontTop                 LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatRightMiddleTop   	     LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatRightRearTop                  LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatMiddleRearTop                 LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatLeftRearTop                   LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatLeftMiddleTop                 LOCAL      localhost     RW       0               0.1         1        160 
+P CalibrationController                      LadarFloatLeftFrontTop   	             LOCAL      localhost     RW       0               0.1         1        160 
+#单目相机Buffer                                                                                                                                 
+P CalibrationController                      CameraMiddleFrontLong              LOCAL      localhost     RW       0               0.1         1        160
+P CalibrationController                      CameraMiddleFrontShort             LOCAL      localhost     RW       0               0.1         1        160
+P CalibrationController                      CameraMiddleFrontSpecial           LOCAL      localhost     RW       0               0.1         1        160
+P CalibrationController                      CameraRightMiddle   	             LOCAL      localhost     RW       0               0.1         1        160
+P CalibrationController                      CameraMiddleRear   	             LOCAL      localhost     RW       0               0.1         1        160
+P CalibrationController                      CameraLeftMiddle   	             LOCAL      localhost     RW       0               0.1         1        160
+
+#LidarPose
+P LidarPose           LadarMiddleMiddleTop           LOCAL     localhost        R       0        0.1        1        161       
+P LidarPose           GlobalPositionBuffer           LOCAL     localhost        R       0        0.1        1        161     
+P LidarPose           LocalPose                      LOCAL     localhost        R      0        0.1        1         161            
+P LidarPose           LidarPosition                  LOCAL     localhost        RW      0        0.1        1        161   
+P LidarPose           MapperRequest                  LOCAL     localhost        RW      0        0.1        1        161   
+P LidarPose           MapperResponse                 LOCAL     localhost        RW      0        0.1        1        161
+P LidarPose           MapPositionInit                LOCAL     localhost        RW      0        0.1        1        161  
+P LidarPose           MapperState                    LOCAL     localhost        RW      0        0.1        1        161  
+P LidarPose           MapPosition                    LOCAL     localhost        RW      0        0.1        1        161  
+P LidarPose           MapperxsControlRequest         LOCAL     localhost        RW      0        0.1        1        161  
+P LidarPose           MapperxsControlResponse        LOCAL     localhost        RW      0        0.1        1        161 
+
+P sync_main           SyncFusionData                    LOCAL      localhost     R        0              0.1         1        162
+
+# Mapper
+P Mapper                             SyncFusionData                    LOCAL      localhost     RW        0              0.1         1        163
+P Mapper                             LadarMiddleMiddleTop              LOCAL      localhost     R        0              0.1         1        163
+P Mapper                             LadarMiddleFrontBottom              LOCAL      localhost     R        0              0.1         1        163
+P Mapper                             GlobalPositionBuffer              LOCAL      localhost     R        0              0.1         1        163
+P Mapper                             LocalPose                         LOCAL      localhost     R        0              0.1         1        163
+P Mapper                             MapperRequest                     LOCAL      localhost     RW       0              0.1         1        163
+P Mapper                             MapperResponse                    LOCAL      localhost     RW       0              0.1         1        163
+P Mapper                             MapPositionInit                   LOCAL      localhost     RW       0              0.1         1        163
+P Mapper                             MapperState                       LOCAL      localhost     RW       0              0.1         1        163
+P Mapper                             MapPosition                       LOCAL      localhost     RW       0              0.1         1        163
+P Mapper                             MapperxsControlRequest            LOCAL      localhost     RW       0              0.1         1        163
+P Mapper                             MapperxsControlResponse           LOCAL      localhost     RW       0              0.1         1        163
+P Mapper                             SyncLidarData           LOCAL      localhost     RW       0              0.1         1        163
+P Mapper                             LadarMiddleFrontBottom            LOCAL      localhost     R        0              0.1         1        163
+
+# Mapper
+P MapperInterface                             SyncFusionData                    LOCAL      localhost     RW        0              0.1         1        165
+P MapperInterface                             LadarMiddleMiddleTop              LOCAL      localhost     R        0              0.1         1        165
+P MapperInterface                             GlobalPositionBuffer              LOCAL      localhost     R        0              0.1         1        165
+P MapperInterface                             LocalPose                         LOCAL      localhost     R        0              0.1         1        165
+P MapperInterface                             MapperRequest                     LOCAL      localhost     RW       0              0.1         1        165
+P MapperInterface                             MapperResponse                    LOCAL      localhost     RW       0              0.1         1        165
+P MapperInterface                             MapPositionInit                   LOCAL      localhost     RW       0              0.1         1        165
+P MapperInterface                             MapperState                       LOCAL      localhost     RW       0              0.1         1        165
+P MapperInterface                             MapPosition                       LOCAL      localhost     RW       0              0.1         1        165
+P MapperInterface                             MapperxsControlRequest            LOCAL      localhost     RW       0              0.1         1        165
+P MapperInterface                             MapperxsControlResponse           LOCAL      localhost     RW       0              0.1         1        165
+P MapperInterface                             SyncLidarData           LOCAL      localhost     RW       0              0.1         1        165
+
+#TransformFusion
+P TransformFusion           LadarMiddleMiddleTop           LOCAL     localhost        R       0        0.1        1        164       
+P TransformFusion           GlobalPositionBuffer           LOCAL     localhost        R       0        0.1        1        164     
+P TransformFusion           LocalPose                      LOCAL     localhost        R      0        0.1        1         164            
+P TransformFusion           LidarPosition                  LOCAL     localhost        RW      0        0.1        1        164     
+P TransformFusion           MapPosition                    LOCAL     localhost        RW      0        0.1        1        164  
+
+P Setinit2d            	     	    MapPositionInit                LOCAL      localhost      W        0              0.1         1        214 

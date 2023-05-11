@@ -20,14 +20,18 @@
 class TestRun {
 public:
   TestRun();
+
   ~TestRun();
+
   void run();
 
 private:
   void initialize();
 
+public:
+    std::string folder_offline_{};
+
 private:
-  std::string folder_offline_{};
   std::vector<std::string> folders_offline_{}; //分包后数据
 
 };
