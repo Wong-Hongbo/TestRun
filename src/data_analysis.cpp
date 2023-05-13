@@ -6,11 +6,9 @@
 
 DataAnalysis::DataAnalysis() = default;
 
-DataAnalysis::DataAnalysis(std::string path) {
+DataAnalysis::DataAnalysis(std::string path,int i) {
   mDataPath = std::move(path);
-
-  send = new SendData(0);
-
+  send = new SendData(i);
 }
 
 DataAnalysis::~DataAnalysis() {
@@ -511,7 +509,6 @@ void DataAnalysis::threadDecodeLidar() {
       if (pcl::io::loadPCDFile<PointType6D>(keypose_floder_ + "/keypose.pcd", *key_pose_) == -1) {
         PCL_ERROR ("Couldn't read PCD file \n");
       }
-
       std::string num_pose_str = "/home/whb/Downloads/data/testrun/map/keyframe";
       pcl::PointCloud<PointType3D>::Ptr num_pose;
       num_pose.reset(new pcl::PointCloud<PointType3D>);
@@ -519,12 +516,8 @@ void DataAnalysis::threadDecodeLidar() {
         PCL_ERROR ("Couldn't read PCD file \n");
       }
 
-      pcl::PointCloud<PointType3D>::Ptr operating_pointcloud_now_;
-      operating_pointcloud_now_.reset(new pcl::PointCloud<PointType3D>);
-      operating_pointcloud_now_ = GetTransformPoint3DCloud(num_pose, key_pose_->points.at(0));
-      pcl::io::savePCDFileBinaryCompressed("operating_pointcloud_now_.pcd", *operating_pointcloud_now_); // 全局
-      std::cout << std::fixed << "xy::" << key_pose_->at(0).x << "," << key_pose_->at(0).y << ","
-                << key_pose_->at(0).time << std::endl;
+
+
 
       int azimuth = int((key_pose_->at(0).yaw + M_PI / 2) * (18000 / M_PI)) % 36000;
       if (azimuth < 0) {

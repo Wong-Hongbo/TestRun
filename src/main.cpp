@@ -17,6 +17,7 @@ int main(int argc, char *argv[]) {
   nml_start();
 
 
+
 //  std::cout << "----------------------------------------" << std::endl;
 //  std::cout << "Test" << std::endl;
 ////  ifstream ifs("/home/whb/Downloads/data/testrun/map/keyframe/keypose.pcd",ios::in);

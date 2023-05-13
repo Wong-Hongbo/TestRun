@@ -46,7 +46,7 @@ public:
 class DataAnalysis {
 public:
   DataAnalysis();
-  DataAnalysis(std::string path);
+  DataAnalysis(std::string path,int i);
   ~DataAnalysis();
   void Analysis();   // 解析函数
 private:

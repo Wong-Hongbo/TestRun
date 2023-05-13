@@ -25,6 +25,8 @@ public:
 
   void run();
 
+  void MakeNML(long num);
+
 private:
   void initialize();
 

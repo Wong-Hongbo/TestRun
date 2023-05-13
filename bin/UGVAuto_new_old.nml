@@ -1,0 +1,375 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# NML Configuration file for the UGVAuto application
+#
+# modify by mengdeyuan 2020-06-24  phone: 18565590904
+#
+#
+# Buffers
+# Name                     Type       Host                    size       neut?          RPC#                    buffer#          MP     . . .
+# -----------------------以下为传感器buffer，只支持本地读写--------------#
+#车辆自身状态Buffer
+B GlobalPositionBuffer           SHMEM     localhost               20480      0        *     001           *         1001 bsem=11001  TCP=11001  xdr
+B LocalPose                      SHMEM     localhost               10240      0        *     002           *         1002 bsem=11002  TCP=11002  xdr
+
+#B LadarMiddleMiddleTop1           SHMEM     localhost             1280000      0        *     300           *         1003 bsem=11300  TCP=11300  xdr
+
+
+B FusionPositionScore                  SHMEM     localhost               20480      0        *     284           *         1284 bsem=11301  TCP=11301  xdr
+
+
+#激光雷达Buffer
+B LadarMiddleMiddleTop           SHMEM     localhost             1280000      0        *     003           *         1003 bsem=11003  TCP=11003  xdr
+B LadarMiddleFrontBottom         SHMEM     localhost             1280000      0        *     004           *         1004 bsem=11004  TCP=11004  xdr
+B LadarRightFrontBottom          SHMEM     localhost             1280000      0        *     005           *         1005 bsem=11005  TCP=11005  xdr
+B LadarRightMiddleBottom         SHMEM     localhost             1280000      0        *     006           *         1006 bsem=11006  TCP=11006  xdr
+B LadarRightRearBottom           SHMEM     localhost             1280000      0        *     007           *         1007 bsem=11007  TCP=11007  xdr
+B LadarMiddleRearBottom          SHMEM     localhost             1280000      0        *     008           *         1008 bsem=11008  TCP=11008  xdr
+B LadarLeftRearBottom            SHMEM     localhost             1280000      0        *     009           *         1009 bsem=11009  TCP=11009  xdr
+B LadarLeftMiddleBottom          SHMEM     localhost             1280000      0        *     010           *         1010 bsem=11010  TCP=11010  xdr
+B LadarLeftFrontBottom           SHMEM     localhost             1280000      0        *     011           *         1011 bsem=11011  TCP=11011  xdr
+B LadarMiddleFrontTop            SHMEM     localhost             1280000      0        *     012           *         1012 bsem=11012  TCP=11012  xdr
+B LadarRightFrontTop             SHMEM     localhost             1280000      0        *     013           *         1013 bsem=11013  TCP=11013  xdr
+B LadarRightMiddleTop            SHMEM     localhost             1280000      0        *     014           *         1014 bsem=11014  TCP=11014  xdr
+B LadarRightRearTop              SHMEM     localhost             1280000      0        *     015           *         1015 bsem=11015  TCP=11015  xdr
+B LadarMiddleRearTop             SHMEM     localhost             1280000      0        *     016           *         1016 bsem=11016  TCP=11016  xdr
+B LadarLeftRearTop               SHMEM     localhost             1280000      0        *     017           *         1017 bsem=11017  TCP=11017  xdr
+B LadarLeftMiddleTop             SHMEM     localhost             1280000      0        *     018           *         1018 bsem=11018  TCP=11018  xdr
+B LadarLeftFrontTop              SHMEM     localhost             1280000      0        *     019           *         1019 bsem=11019  TCP=11019  xdr
+
+#浮点形激光雷达buffer，用于反光板定位和高精标定
+B LadarFloatMiddleMiddleTop      SHMEM     localhost             2560000      0        *     020           *         1020 bsem=11020  TCP=11020  xdr
+B LadarFloatMiddleFrontBottom    SHMEM     localhost             2560000      0        *     021           *         1021 bsem=11021  TCP=11021  xdr
+B LadarFloatRightFrontBottom     SHMEM     localhost             2560000      0        *     022           *         1022 bsem=11022  TCP=11022  xdr
+B LadarFloatRightMiddleBottom    SHMEM     localhost             2560000      0        *     023           *         1023 bsem=11023  TCP=11023  xdr
+B LadarFloatRightRearBottom      SHMEM     localhost             2560000      0        *     024           *         1024 bsem=11024  TCP=11024  xdr
+B LadarFloatMiddleRearBottom     SHMEM     localhost             2560000      0        *     025           *         1025 bsem=11025  TCP=11025  xdr
+B LadarFloatLeftRearBottom       SHMEM     localhost             2560000      0        *     026           *         1026 bsem=11026  TCP=11026  xdr
+B LadarFloatLeftMiddleBottom     SHMEM     localhost             2560000      0        *     027           *         1027 bsem=11027  TCP=11027  xdr
+B LadarFloatLeftFrontBottom      SHMEM     localhost             2560000      0        *     028           *         1028 bsem=11028  TCP=11028  xdr
+B LadarFloatMiddleFrontTop       SHMEM     localhost             2560000      0        *     029           *         1029 bsem=11029  TCP=11029  xdr
+B LadarFloatRightFrontTop        SHMEM     localhost             2560000      0        *     030           *         1030 bsem=11030  TCP=11030  xdr
+B LadarFloatRightMiddleTop       SHMEM     localhost             2560000      0        *     031           *         1031 bsem=11031  TCP=11031  xdr
+B LadarFloatRightRearTop         SHMEM     localhost             2560000      0        *     032           *         1032 bsem=11032  TCP=11032  xdr
+B LadarFloatMiddleRearTop        SHMEM     localhost             2560000      0        *     033           *         1033 bsem=11033  TCP=11033  xdr
+B LadarFloatLeftRearTop          SHMEM     localhost             2560000      0        *     034           *         1034 bsem=11034  TCP=11034  xdr
+B LadarFloatLeftMiddleTop        SHMEM     localhost             2560000      0        *     035           *         1035 bsem=11035  TCP=11035  xdr
+B LadarFloatLeftFrontTop         SHMEM     localhost             2560000      0        *     036           *         1036 bsem=11036  TCP=11036  xdr
+#多雷达融合buffer，最多支持256×2100个点
+B SyncLidarData                  SHMEM     localhost             5120000      0        *     037           *         1037 bsem=11037  TCP=11037  xdr
+
+#单目相机Buffer
+B CameraMiddleFrontLong          SHMEM     localhost             7680000      0        *     040           *         1040 bsem=11040  TCP=11040  xdr
+B CameraMiddleFrontShort         SHMEM     localhost             7680000      0        *     041           *         1041 bsem=11041  TCP=11041  xdr
+B CameraMiddleFrontSpecial       SHMEM     localhost             7680000      0        *     042           *         1042 bsem=11042  TCP=11042  xdr
+B CameraRightMiddle              SHMEM     localhost             7680000      0        *     043           *         1043 bsem=11043  TCP=11043  xdr
+B CameraMiddleRear               SHMEM     localhost             7680000      0        *     044           *         1044 bsem=11044  TCP=11044  xdr
+B CameraLeftMiddle               SHMEM     localhost             7680000      0        *     045           *         1045 bsem=11045  TCP=11045  xdr
+
+#双目相机Buffer
+B StereoMiddleFront              SHMEM     localhost            15360000      0        *     050           *         1050 bsem=11050  TCP=11050  xdr
+B StereoRightMiddle              SHMEM     localhost            15360000      0        *     051           *         1051 bsem=11051  TCP=11051  xdr
+B StereoMiddleRear               SHMEM     localhost            15360000      0        *     052           *         1052 bsem=11052  TCP=11052  xdr
+B StereoLeftMiddle               SHMEM     localhost            15360000      0        *     053           *         1053 bsem=11053  TCP=11053  xdr
+
+#超声Buffer
+
+#图像雷达融合Buffer
+B SyncFusionData                 SHMEM     localhost             15360000      0        *     056           *         1056 bsem=11056  TCP=11056  xdr
+
+#毫米波雷达Buffer
+B RadarMiddleFrontBottom         SHMEM     localhost              102400      0        *     060           *         1060 bsem=11060  TCP=11060  xdr
+B RadarLeftFrontBottom           SHMEM     localhost              102400      0        *     061           *         1061 bsem=11061  TCP=11061  xdr
+B RadarLeftMiddleBottom          SHMEM     localhost              102400      0        *     062           *         1062 bsem=11062  TCP=11062  xdr
+B RadarLeftRearBottom            SHMEM     localhost              102400      0        *     063           *         1063 bsem=11063  TCP=11063  xdr
+B RadarMiddleRearBottom          SHMEM     localhost              102400      0        *     064           *         1064 bsem=11064  TCP=11064  xdr
+B RadarRightRearBottom           SHMEM     localhost              102400      0        *     065           *         1065 bsem=11065  TCP=11065  xdr
+B RadarRightMiddleBottom         SHMEM     localhost              102400      0        *     066           *         1066 bsem=11066  TCP=11066  xdr
+B RadarRightFrontBottom          SHMEM     localhost              102400      0        *     067           *         1067 bsem=11067  TCP=11067  xdr
+#多毫米波融合buffer
+B SyncRadarData                  SHMEM     localhost              204800      0        *     068           *         1068 bsem=11068  TCP=11068  xdr
+
+#3D目标
+B LidarObjectInfo                SHMEM     localhost              256000      0        *     070           *         1070 bsem=11070  TCP=11070  xdr
+B FrontObjectInfo                SHMEM     localhost              256000      0        *     071           *         1071 bsem=11071  TCP=11071  xdr
+B RearObjectInfo                 SHMEM     localhost              256000      0        *     072           *         1072 bsem=11072  TCP=11072  xdr
+B CameraObjectInfo               SHMEM     localhost              256000      0        *     073           *         1073 bsem=11073  TCP=11073  xdr
+B RadarObjectInfo                SHMEM     localhost              256000      0        *     074           *         1074 bsem=11074  TCP=11074  xdr
+B FusionObjectInfo               SHMEM     localhost              512000      0        *     075           *         1075 bsem=11075  TCP=11075  xdr
+
+#障碍图
+B AroundObstacleMap              SHMEM     localhost             1024000      0        *     080           *         1080 bsem=11080  TCP=11080  xdr
+B FrontObstacleMap               SHMEM     localhost             1024000      0        *     081           *         1081 bsem=11081  TCP=11081  xdr
+B RearObstacleMap                SHMEM     localhost             1024000      0        *     082           *         1082 bsem=11082  TCP=11082  xdr
+B UltraSonicObstacleMap          SHMEM     localhost             1024000      0        *     083           *         1083 bsem=11083  TCP=11083  xdr
+B FusionObstacleMap              SHMEM     localhost             1024000      0        *     084           *         1084 bsem=11084  TCP=11084  xdr
+
+#定位buffer--------------------------#
+B MapPosition                    SHMEM     localhost               20480      0        *     100           *         1100 bsem=11100  TCP=11100  xdr
+B MapPositionInit                SHMEM     localhost               20480      0        *     227           *         1227 bsem=11227 TCP=11227  xdr
+
+#感知buffer--------------------------#
+#识别目标
+B LidarObjectInfo                SHMEM     localhost              512000      0        *     101           *         1101 bsem=11101  TCP=11101  xdr
+B FrontLidarObjectInfo           SHMEM     localhost              512000      0        *     104           *         1102 bsem=11104  TCP=11102  xdr
+B CameraObjectInfo               SHMEM     localhost              512000      0        *     103           *         1103 bsem=11103  TCP=11103  xdr
+B RadarObjectInfo                SHMEM     localhost              512000      0        *     102           *         1104 bsem=11102  TCP=11104  xdr
+B UltrasonicObjectInfo           SHMEM     localhost              512000      0        *     105           *         1105 bsem=11105  TCP=11105  xdr
+B FusionObjectInfo               SHMEM     localhost             1024000      0        *     106           *         1106 bsem=11106  TCP=11106  xdr
+
+#局部概率占据图
+B LocalProbabilityMap            SHMEM     localhost             2048000      0        *     107           *         1107 bsem=11107  TCP=11107  xdr
+
+#红绿灯
+B TrafficLightInfo               SHMEM     localhost              102400      0        *     108           *         1108 bsem=11108  TCP=11108  xdr
+
+#交通标志
+B TrafficSignInfo                SHMEM     localhost              102400      0        *     109           *         1109 bsem=11109  TCP=11109  xdr
+
+#场景理解
+B SenceSegInfo                   SHMEM     localhost              512000      0        *     110           *         1110 bsem=11110  TCP=11110  xdr
+
+#车道线
+B LaneMarkingInfo                SHMEM     localhost              102400      0        *     111           *         1111 bsem=11111  TCP=11111  xdr
+
+#预测#
+# 融合输出的三个地图
+B EntityMap                     SHMEM      localhost             409600       0        *     112           *         1112 bsem=11112 TCP=11112  xdr
+B LocalDEMMap                   SHMEM      localhost             512000       0        *     113           *         1113 bsem=11113 TCP=11113  xdr
+B LocalAttributeMap             SHMEM      localhost            1024000       0        *     114           *         1114 bsem=11114 TCP=11114  xdr
+B PredictionData                SHMEM      localhost             512000       0        *     115           *         1115 bsem=11115 TCP=11115  xdr
+
+#旧buffer， 暂时保留#
+B VehicleInfo                    SHMEM     localhost             204800       0        *     116           *         1116 bsem=11116 TCP=11116  xdr
+B PositiveObstacle               SHMEM     localhost            1024000       0        *     117           *         1117 bsem=11117 TCP=11117  xdr
+B TrafficLight                   SHMEM     localhost              20480       0        *     118           *         1118 bsem=11118 TCP=11118  xdr
+
+
+#全局任务
+B TaskList                       SHMEM     localhost              204800      0        *     119           *         1119 bsem=11119 TCP=11119  xdr
+B TaskListProto                  SHMEM     localhost              204800      0        *     120           *         1120 bsem=11120 TCP=11120  xdr
+
+
+#局部规划
+B LocalPathInfo                  SHMEM     localhost              20480       0        *     121           *         1121 bsem=11121 TCP=11121  xdr
+B LocalPlanState                 SHMEM     localhost              20480       0        *     122           *         1122 bsem=11122 TCP=11122  xdr
+B LocalPlanCmd                   SHMEM     localhost              20480       0        *     123           *         1123 bsem=11123 TCP=11123  xdr
+
+#矢量图
+B LocalHDMap                     SHMEM     localhost              5000000     0        *     124           *         1124 bsem=11124 TCP=11124  xdr
+B TrafficMap                     SHMEM     localhost              51200       0        *     125           *         1125 bsem=11125 TCP=11125  xdr
+B TrafficMapIntersection         SHMEM     localhost              5000000     0        *     126           *         1126 bsem=11126 TCP=11126  xdr
+
+
+#超声
+B UltraSonicData                 SHMEM     localhost               10240      0        *     130           *         1130 bsem=11130 TCP=11130  xdr
+
+
+#业务交互
+B MapperRequest                  SHMEM     localhost               10240      0        *     200           *         1200 bsem=11200 TCP=11200  xdr 
+B MapperResponse                 SHMEM     localhost               5000000      0        *     201           *         1201 bsem=11201 TCP=11201  xdr 
+B RouteRecordRequest             SHMEM     localhost               10240      0        *     202           *         1202 bsem=11202 TCP=11202  xdr queue
+B RouteRecordResponse            SHMEM     localhost               10240      0        *     203           *         1203 bsem=11203 TCP=11203  xdr queue
+B MapSyncRequest                 SHMEM     localhost               10240      0        *     204           *         1204 bsem=11204 TCP=11204  xdr
+B MapSyncResponse                SHMEM     localhost               10240      0        *     205           *         1205 bsem=11205 TCP=11205  xdr
+B LocalisationInitRequest        SHMEM     localhost               20480      0        *     206           *         1206 bsem=11206 TCP=11206  xdr queue
+B LocalisationInitResponse       SHMEM     localhost               40960      0        *     207           *         1207 bsem=11207 TCP=11207  xdr queue
+B MapperState                    SHMEM     localhost               10240      0        *     208           *         1208 bsem=11208 TCP=11208  xdr queue
+B TrafficMapControlRequest       SHMEM     localhost               5000000    0        *     209           *         1209 bsem=11209 TCP=11209  xdr
+B TrafficMapControlReply         SHMEM     localhost               5000000    0        *     210           *         1210 bsem=11210 TCP=11210  xdr
+B FaultInfo                      SHMEM     localhost               51200      0        *     211           *         1211 bsem=11211 TCP=11211  xdr queue
+B GlobalPathControlCommand       SHMEM     localhost               5120       0        *     212           *         1212 bsem=11212 TCP=11212  xdr queue
+B GlobalPathControlResponse      SHMEM     localhost               5120       0        *     213           *         1213 bsem=11213 TCP=11213  xdr queue
+B LocalizerInitControlRequest    SHMEM     localhost               5120       0        *     214           *         1214 bsem=11214 TCP=11214  xdr queue
+B LocalizerInitControlResponse   SHMEM     localhost               5120       0        *     215           *         1215 bsem=11215 TCP=11215  xdr queue
+B MapperxsControlRequest         SHMEM     localhost               5120       0        *     216           *         1216 bsem=11216 TCP=11216  xdr queue
+B MapperxsControlResponse        SHMEM     localhost               5120       0        *     217           *         1217 bsem=11217 TCP=11217  xdr queue
+B MapLocalizer3DControlRequest   SHMEM     localhost               5120       0        *     218           *         1218 bsem=11218 TCP=11218  xdr queue
+B MapLocalizer3DControlResponse  SHMEM     localhost               5120       0        *     219           *         1219 bsem=11219 TCP=11219  xdr queue
+B SensorControlRequest           SHMEM     localhost               51200      0        *     220           *         1220 bsem=11220 TCP=11220  xdr queue
+B SensorControlResponse          SHMEM     localhost               51200      0        *     221           *         1221 bsem=11221 TCP=11221  xdr queue
+
+#新进测试程序
+B FusionPosition                 SHMEM     localhost               20480      0        *     222           *         1222 bsem=11222  TCP=11222  xdr
+B LidarPosition                  SHMEM     localhost               20480      0        *     223           *         1223 bsem=11223  TCP=11223  xdr
+B RefAttBuffer                   SHMEM     localhost               20481      0        *     224           *         1224 bsem=11224  TCP=11224  xdr
+B MagBuffer                  	 SHMEM     localhost               20481      0        *     225           *         1225 bsem=11225  TCP=11225  xdr
+B FusionPosition2                SHMEM     localhost               20482      0        *     226           *         1226 bsem=11226  TCP=11226  xdr
+B ControlCommandCmd              SHMEM     localhost               51200      0        *     227           *         1227 bsem=11227  TCP=11227   xdr
+
+#数据采集
+B NavServerInsideCmd         SHMEM     localhost            51200     	0       *     268        *        1231 bsem=11231 TCP=11231	xdr
+B NavServerControlRequest        SHMEM     localhost               51200      0        *     273           *         1273 bsem=11273 TCP=11273  xdr
+B NavServerControlResponse       SHMEM     localhost               51200      0        *     274           *         1274 bsem=11274 TCP=11274  xdr
+
+
+# Buffers
+# GlobalPositionBuffer
+B GlobalPositionBuffer0  SHMEM  localhost  20480  0  *  001  *  1001  bsem=11001  TCP=11001  xdr
+B GlobalPositionBuffer1  SHMEM  localhost  20480  0  *  002  *  1002  bsem=11002  TCP=11002  xdr
+B GlobalPositionBuffer2  SHMEM  localhost  20480  0  *  003  *  1003  bsem=11003  TCP=11003  xdr
+# LocalPose
+B LocalPose0  SHMEM  localhost  10240  0  *  004  *  1004  bsem=11004  TCP=11004  xdr
+B LocalPose1  SHMEM  localhost  10240  0  *  005  *  1005  bsem=11005  TCP=11005  xdr
+B LocalPose2  SHMEM  localhost  10240  0  *  006  *  1006  bsem=11006  TCP=11006  xdr
+# LadarMiddleMiddleTop
+B LadarMiddleMiddleTop0  SHMEM  localhost  1280000  0  *  007  *  1007  bsem=11007  TCP=11007  xdr
+B LadarMiddleMiddleTop1  SHMEM  localhost  1280000  0  *  008  *  1008  bsem=11008  TCP=11008  xdr
+B LadarMiddleMiddleTop2  SHMEM  localhost  1280000  0  *  009  *  1009  bsem=11009  TCP=11009  xdr
+# MapPosition
+B MapPosition0  SHMEM  localhost  20480  0  *  010  *  1010  bsem=11010  TCP=11010  xdr
+B MapPosition1  SHMEM  localhost  20480  0  *  011  *  1011  bsem=11011  TCP=11011  xdr
+B MapPosition2  SHMEM  localhost  20480  0  *  012  *  1012  bsem=11012  TCP=11012  xdr
+# MapPositionInit
+B MapPositionInit0  SHMEM  localhost  20480  0  *  013  *  1013  bsem=11013  TCP=11013  xdr
+B MapPositionInit1  SHMEM  localhost  20480  0  *  014  *  1014  bsem=11014  TCP=11014  xdr
+B MapPositionInit2  SHMEM  localhost  20480  0  *  015  *  1015  bsem=11015  TCP=11015  xdr
+# LidarPosition
+B LidarPosition0  SHMEM  localhost  20480  0  *  016  *  1016  bsem=11016  TCP=11016  xdr
+B LidarPosition1  SHMEM  localhost  20480  0  *  017  *  1017  bsem=11017  TCP=11017  xdr
+B LidarPosition2  SHMEM  localhost  20480  0  *  018  *  1018  bsem=11018  TCP=11018  xdr
+# FusionPositionScore
+B FusionPositionScore0  SHMEM  localhost  20480  0  *  019  *  1019  bsem=11019  TCP=11019  xdr
+B FusionPositionScore1  SHMEM  localhost  20480  0  *  020  *  1020  bsem=11020  TCP=11020  xdr
+B FusionPositionScore2  SHMEM  localhost  20480  0  *  021  *  1021  bsem=11021  TCP=11021  xdr
+
+# Processes
+# TransformFusion0
+P TransformFusion0  GlobalPositionBuffer0 LOCAL localhost RW  0 0.1 1 100
+P TransformFusion0  LocalPose0 LOCAL localhost RW  0 0.1 1 100
+P TransformFusion0  LadarMiddleMiddleTop0 LOCAL localhost RW  0 0.1 1 100
+P TransformFusion0  MapPosition0 LOCAL localhost RW  0 0.1 1 100
+P TransformFusion0  MapPositionInit0 LOCAL localhost RW  0 0.1 1 100
+P TransformFusion0  LidarPosition0 LOCAL localhost RW  0 0.1 1 100
+P TransformFusion0  FusionPositionScore0 LOCAL localhost RW  0 0.1 1 100
+
+# TransformFusion1
+P TransformFusion1  GlobalPositionBuffer1 LOCAL localhost RW  0 0.1 1 101
+P TransformFusion1  LocalPose1 LOCAL localhost RW  0 0.1 1 101
+P TransformFusion1  LadarMiddleMiddleTop1 LOCAL localhost RW  0 0.1 1 101
+P TransformFusion1  MapPosition1 LOCAL localhost RW  0 0.1 1 101
+P TransformFusion1  MapPositionInit1 LOCAL localhost RW  0 0.1 1 101
+P TransformFusion1  LidarPosition1 LOCAL localhost RW  0 0.1 1 101
+P TransformFusion1  FusionPositionScore1 LOCAL localhost RW  0 0.1 1 101
+
+# TransformFusion2
+P TransformFusion2  GlobalPositionBuffer2 LOCAL localhost RW  0 0.1 1 102
+P TransformFusion2  LocalPose2 LOCAL localhost RW  0 0.1 1 102
+P TransformFusion2  LadarMiddleMiddleTop2 LOCAL localhost RW  0 0.1 1 102
+P TransformFusion2  MapPosition2 LOCAL localhost RW  0 0.1 1 102
+P TransformFusion2  MapPositionInit2 LOCAL localhost RW  0 0.1 1 102
+P TransformFusion2  LidarPosition2 LOCAL localhost RW  0 0.1 1 102
+P TransformFusion2  FusionPositionScore2 LOCAL localhost RW  0 0.1 1 102
+
+# TestRun0
+P TestRun0  GlobalPositionBuffer0 LOCAL localhost RW  0 0.1 1 103
+P TestRun0  LocalPose0 LOCAL localhost RW  0 0.1 1 103
+P TestRun0  LadarMiddleMiddleTop0 LOCAL localhost RW  0 0.1 1 103
+P TestRun0  MapPosition0 LOCAL localhost RW  0 0.1 1 103
+P TestRun0  MapPositionInit0 LOCAL localhost RW  0 0.1 1 103
+P TestRun0  LidarPosition0 LOCAL localhost RW  0 0.1 1 103
+P TestRun0  FusionPositionScore0 LOCAL localhost RW  0 0.1 1 103
+
+# TestRun1
+P TestRun1  GlobalPositionBuffer1 LOCAL localhost RW  0 0.1 1 104
+P TestRun1  LocalPose1 LOCAL localhost RW  0 0.1 1 104
+P TestRun1  LadarMiddleMiddleTop1 LOCAL localhost RW  0 0.1 1 104
+P TestRun1  MapPosition1 LOCAL localhost RW  0 0.1 1 104
+P TestRun1  MapPositionInit1 LOCAL localhost RW  0 0.1 1 104
+P TestRun1  LidarPosition1 LOCAL localhost RW  0 0.1 1 104
+P TestRun1  FusionPositionScore1 LOCAL localhost RW  0 0.1 1 104
+
+# TestRun2
+P TestRun2  GlobalPositionBuffer2 LOCAL localhost RW  0 0.1 1 105
+P TestRun2  LocalPose2 LOCAL localhost RW  0 0.1 1 105
+P TestRun2  LadarMiddleMiddleTop2 LOCAL localhost RW  0 0.1 1 105
+P TestRun2  MapPosition2 LOCAL localhost RW  0 0.1 1 105
+P TestRun2  MapPositionInit2 LOCAL localhost RW  0 0.1 1 105
+P TestRun2  LidarPosition2 LOCAL localhost RW  0 0.1 1 105
+P TestRun2  FusionPositionScore2 LOCAL localhost RW  0 0.1 1 105
+
+# FusionLocScore0
+P FusionLocScore0  GlobalPositionBuffer0 LOCAL localhost RW  0 0.1 1 106
+P FusionLocScore0  LocalPose0 LOCAL localhost RW  0 0.1 1 106
+P FusionLocScore0  LadarMiddleMiddleTop0 LOCAL localhost RW  0 0.1 1 106
+P FusionLocScore0  MapPosition0 LOCAL localhost RW  0 0.1 1 106
+P FusionLocScore0  MapPositionInit0 LOCAL localhost RW  0 0.1 1 106
+P FusionLocScore0  LidarPosition0 LOCAL localhost RW  0 0.1 1 106
+P FusionLocScore0  FusionPositionScore0 LOCAL localhost RW  0 0.1 1 106
+
+# FusionLocScore1
+P FusionLocScore1  GlobalPositionBuffer1 LOCAL localhost RW  0 0.1 1 107
+P FusionLocScore1  LocalPose1 LOCAL localhost RW  0 0.1 1 107
+P FusionLocScore1  LadarMiddleMiddleTop1 LOCAL localhost RW  0 0.1 1 107
+P FusionLocScore1  MapPosition1 LOCAL localhost RW  0 0.1 1 107
+P FusionLocScore1  MapPositionInit1 LOCAL localhost RW  0 0.1 1 107
+P FusionLocScore1  LidarPosition1 LOCAL localhost RW  0 0.1 1 107
+P FusionLocScore1  FusionPositionScore1 LOCAL localhost RW  0 0.1 1 107
+
+# FusionLocScore2
+P FusionLocScore2  GlobalPositionBuffer2 LOCAL localhost RW  0 0.1 1 108
+P FusionLocScore2  LocalPose2 LOCAL localhost RW  0 0.1 1 108
+P FusionLocScore2  LadarMiddleMiddleTop2 LOCAL localhost RW  0 0.1 1 108
+P FusionLocScore2  MapPosition2 LOCAL localhost RW  0 0.1 1 108
+P FusionLocScore2  MapPositionInit2 LOCAL localhost RW  0 0.1 1 108
+P FusionLocScore2  LidarPosition2 LOCAL localhost RW  0 0.1 1 108
+P FusionLocScore2  FusionPositionScore2 LOCAL localhost RW  0 0.1 1 108
+
+# MapLocalizer0
+
+# MapLocalizer0
+P MapLocalizer0                       LadarFloatMiddleMiddleTop         LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer0                       LadarMiddleMiddleTop0              LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer0                       LadarRightFrontTop                LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer0                       LadarMiddleFrontBottom                LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer0                       SyncLidarData                LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer0                       GlobalPositionBuffer              LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer0                       MapPosition0                       LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer0                       SDKMapPosition                    LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer0                       MapPointCloud                     LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer0                       MapPositionInit0                   LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer0                       MapperState                       LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer0                       LocalPose                         LOCAL      localhost     RW        0              0.1         1        208
+P MapLocalizer0                       TaskList                          LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer0                       PathnetPcdName                          LOCAL      localhost     RW        0              0.1         1        208
+P MapLocalizer0                       MapLocalizer3DControlRequest      LOCAL      localhost     R        0              0.1         1        208
+P MapLocalizer0                       MapLocalizer3DControlResponse     LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer0                       LidarPosition0                       LOCAL      localhost     W        0              0.1         1        208
+P MapLocalizer0                       LocalHDMap                        LOCAL      localhost     R        0              0.1         1       208
+
+# MapLocalizer1
+P MapLocalizer1  GlobalPositionBuffer1 LOCAL localhost RW  0 0.1 1 110
+P MapLocalizer1  LocalPose1 LOCAL localhost RW  0 0.1 1 110
+P MapLocalizer1  LadarMiddleMiddleTop1 LOCAL localhost RW  0 0.1 1 110
+P MapLocalizer1  MapPosition1 LOCAL localhost RW  0 0.1 1 110
+P MapLocalizer1  MapPositionInit1 LOCAL localhost RW  0 0.1 1 110
+P MapLocalizer1  LidarPosition1 LOCAL localhost RW  0 0.1 1 110
+P MapLocalizer1  FusionPositionScore1 LOCAL localhost RW  0 0.1 1 110
+
+# MapLocalizer2
+P MapLocalizer2  GlobalPositionBuffer2 LOCAL localhost RW  0 0.1 1 111
+P MapLocalizer2  LocalPose2 LOCAL localhost RW  0 0.1 1 111
+P MapLocalizer2  LadarMiddleMiddleTop2 LOCAL localhost RW  0 0.1 1 111
+P MapLocalizer2  MapPosition2 LOCAL localhost RW  0 0.1 1 111
+P MapLocalizer2  MapPositionInit2 LOCAL localhost RW  0 0.1 1 111
+P MapLocalizer2  LidarPosition2 LOCAL localhost RW  0 0.1 1 111
+P MapLocalizer2  FusionPositionScore2 LOCAL localhost RW  0 0.1 1 111
+
+
+
+
