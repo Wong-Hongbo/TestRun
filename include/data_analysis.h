@@ -31,6 +31,7 @@
 
 
 #include "send_data.h"
+
 class GlobalPose {
 public:
   double time;
@@ -46,13 +47,19 @@ public:
 class DataAnalysis {
 public:
   DataAnalysis();
-  DataAnalysis(std::string path,int i);
+
+  DataAnalysis(std::string, int, std::string);
+
   ~DataAnalysis();
+
   void Analysis();   // 解析函数
 private:
   // 数据关联
   bool findLpAtStamp(double stamp, LocalPose &outLP);
-  bool findGpAtStamp(double stamp, GlobalPose& outGP);
+
+  bool findGpAtStamp(double stamp, GlobalPose &outGP);
+
+  int findInit(double);
 
   // 线程函数
   void threadDecodeIns();        // GP 读取 Ins.txt
@@ -61,12 +68,15 @@ private:
   void threadReciveMap();  // 接收MapPosition
 
 public:
-  std::string mDataPath;   // 读取离线数据的路径
+  std::string mDataPath{};   // 读取离线数据的路径
+  std::string mMapPath{};
+  int NO_{};
 
+  SendData *send = nullptr;
 
-  SendData* send = nullptr;
 
 private:
+  bool init = false;// 地图程序文本
 
   bool endthread_ = false;
   // 参数
@@ -77,10 +87,10 @@ private:
   int mRawLidarHz = 10.0;     // Lidar的数据频率
 
   // 线程
-  std::thread* mThreadDecodeIns = nullptr;
-  std::thread* mThreadDecodeLidar = nullptr;
-  std::thread* mThreadDecodeLocalPose = nullptr;
-  std::thread* mThreadReciveMap = nullptr;
+  std::thread *mThreadDecodeIns = nullptr;
+  std::thread *mThreadDecodeLidar = nullptr;
+  std::thread *mThreadDecodeLocalPose = nullptr;
+  std::thread *mThreadReciveMap = nullptr;
   //内部容器  用作Lidar帧关联Lp Gp数据时间同步使用
   std::deque<GlobalPose> mGlobalPoseQue;
   std::deque<LocalPose> mLocalPoseQue;

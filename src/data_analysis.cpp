@@ -6,9 +6,11 @@
 
 DataAnalysis::DataAnalysis() = default;
 
-DataAnalysis::DataAnalysis(std::string path,int i) {
-  mDataPath = std::move(path);
+DataAnalysis::DataAnalysis(std::string data_path,int i,std::string map_path) {
+  mDataPath = std::move(data_path);
   send = new SendData(i);
+  mMapPath = std::move(map_path);
+  NO_ = i;
 }
 
 DataAnalysis::~DataAnalysis() {
@@ -425,8 +427,8 @@ void DataAnalysis::threadDecodeLidar() {
             printf("[DataTransmit] inputLidarThread(): Curr GP QueSize: %zu , back time : %lf \n", qsize,
                    qsize == 0 ? thisGP.time : mGlobalPoseQue.back().time);
           }
-          continue;
           std::cout << "No Find LP && GP ::" << std::endl;
+          continue;
         }
 
         if (mLocalPoseQue_temp.empty()&&mGlobalPoseQue_temp.empty()) {
@@ -483,86 +485,76 @@ void DataAnalysis::threadDecodeLidar() {
     std::cout << "同步成功" << std::endl;
     // 将提取到的Lidar Scan信息写入队列
 
-    send->SendHDLadarData(thisSyncLidar);
-
 //    GLOBALPOSITIONINFO_MSG thisGlobalPosition;
 //    LOCALPOSE_MSG thisLocalPose;
 //    send->SendGlobalPosition( thisGP.gp);
 //    send->SendLocalPose( thisLP.lp);
 
-    if (count == 6) {
-      MAP_POSITION_MSG thisMapPosition;
-      thisMapPosition.MessageSeqNum++;
-      thisMapPosition.MessageID = MAP_POSITION_MSG_TYPE;
-      thisMapPosition.Position = thisSyncLidar.Position;
-      thisMapPosition.LocalPose = thisSyncLidar.LocalPose;
+    if(!init){
+      int find_pose = findInit(timestamp);
+      if(find_pose != -1){
+        MAP_POSITION_MSG thisMapPosition;
+        thisMapPosition.MessageSeqNum++;
+        thisMapPosition.MessageID = MAP_POSITION_MSG_TYPE;
+        thisMapPosition.Position = thisSyncLidar.Position;
+        thisMapPosition.LocalPose = thisSyncLidar.LocalPose;
 
-      std::cout << "=============================================" << std::endl;
-      std::cout << "Test" << std::endl;
-//  ifstream ifs("/home/whb/Downloads/data/testrun/map/keyframe/keypose.pcd",ios::in);
-//  ifstream ifs("/home/whb/Downloads/data/testrun/map/keyframe/0.pcd",ios::in);
-      std::string keypose_floder_ = "/home/whb/Downloads/data/testrun/map/keyframe";
-      pcl::PointCloud<PointType6D>::Ptr key_pose_;
-      key_pose_.reset(new pcl::PointCloud<PointType6D>);
+        pcl::PointCloud<PointType6D>::Ptr key_pose;
+        key_pose.reset(new pcl::PointCloud<PointType6D>);
+        std::cout << "pcl::" << mMapPath + "/keypose.pcd" << std::endl;
+        if (pcl::io::loadPCDFile<PointType6D>(mMapPath + "/keypose.pcd", *key_pose) == -1) {
+          PCL_ERROR ("Couldn't read keypose PCD file \n");
+          return ;
+        }
 
-      std::cout << "pcl::" << keypose_floder_ + "/keypose.pcd" << std::endl;
-      if (pcl::io::loadPCDFile<PointType6D>(keypose_floder_ + "/keypose.pcd", *key_pose_) == -1) {
-        PCL_ERROR ("Couldn't read PCD file \n");
+        int azimuth = int((key_pose->at(find_pose).yaw + M_PI / 2) * (18000 / M_PI)) % 36000;
+        if (azimuth < 0) {
+          azimuth += 36000;
+        }
+        thisMapPosition.azimuth = azimuth / 100;
+        thisMapPosition.global_x = key_pose->at(find_pose).x * 1.0 + 6272000 / 100.0f;
+        thisMapPosition.global_y = key_pose->at(find_pose).y * 1.0 - 59868500 / 100.0f;
+        thisMapPosition.roll = key_pose->at(find_pose).roll;
+        thisMapPosition.pitch = key_pose->at(find_pose).pitch;
+        thisMapPosition.height = key_pose->at(find_pose).z;
+
+        double longitude, latitude;
+        GaussProjInvCal(thisMapPosition.global_x / 100.0 + BASE_X, thisMapPosition.global_y / 100.0 + BASE_Y,
+                        &longitude, &latitude, 19);
+        std::cout << "thisGP.gp.longitude::" << longitude << std::endl;
+        std::cout << "thisGP.gp.laltitude::" << latitude << std::endl;
+        thisMapPosition.longitude = thisGP.gp.longitude;
+        thisMapPosition.latitude = thisGP.gp.longitude;
+
+        thisMapPosition.works_well = 1;
+
+        std::cout << "=============================================" << std::endl;
+
+        thisMapPosition.envstatewarning = 199;
+        send->SendMapPosition(thisMapPosition);
+        int k = 0;
+        while(k<10){
+          send->SendHDLadarData(thisSyncLidar);
+          sleep(1);
+          k++;
+          std::cout<<"等待初始化！！！"<<std::endl;
+        }
+        init = true;
+
+      }else{
+        send->SendHDLadarData(thisSyncLidar);
       }
-      std::string num_pose_str = "/home/whb/Downloads/data/testrun/map/keyframe";
-      pcl::PointCloud<PointType3D>::Ptr num_pose;
-      num_pose.reset(new pcl::PointCloud<PointType3D>);
-      if (pcl::io::loadPCDFile<PointType3D>(keypose_floder_ + "/0.pcd", *num_pose) == -1) {
-        PCL_ERROR ("Couldn't read PCD file \n");
-      }
-
-
-
-
-      int azimuth = int((key_pose_->at(0).yaw + M_PI / 2) * (18000 / M_PI)) % 36000;
-      if (azimuth < 0) {
-        azimuth += 36000;
-      }
-
-      thisMapPosition.azimuth = azimuth / 100;
-
-      thisMapPosition.global_x = key_pose_->at(0).x * 1.0 + 6272000 / 100.0f;
-      thisMapPosition.global_y = key_pose_->at(0).y * 1.0 - 59868500 / 100.0f;
-      thisMapPosition.roll = key_pose_->at(0).roll;
-      thisMapPosition.pitch = key_pose_->at(0).pitch;
-      thisMapPosition.height = key_pose_->at(0).z;
-
-      double longitude, latitude;
-      GaussProjInvCal(thisMapPosition.global_x / 100.0 + BASE_X, thisMapPosition.global_y / 100.0 + BASE_Y,
-                      &longitude, &latitude, 19);
-
-      std::cout << "thisGP.gp.longitude::" << longitude << std::endl;
-      std::cout << "thisGP.gp.laltitude::" << latitude << std::endl;
-
-      thisMapPosition.longitude = thisGP.gp.longitude;
-      thisMapPosition.latitude = thisGP.gp.longitude;
-
-      thisMapPosition.works_well = 1;
-
-      std::cout << "=============================================" << std::endl;
-
-      thisMapPosition.envstatewarning = 199;
-      send->SendMapPosition(thisMapPosition);
-      int k = 0;
-      while (k < 5) {
-        k++;
-        sleep(1);
-      }
+    }else{
+      send->SendHDLadarData(thisSyncLidar);
     }
+
 
     count++;
     printf("[DataTransmit] Load Lidar Counter %zu. \n", count);
     usleep(100000); // 雷达100ms
-
   }
   fclose(fp);
   endthread_ = true;
-
 }
 
 
@@ -637,9 +629,16 @@ void DataAnalysis::threadDecodeLocalPose() {
 
 void DataAnalysis::threadReciveMap() {
 
-  while (!endthread_) {
+  while (!endthread_&& init) {
     MAP_POSITION_MSG map_position{};
+
+    std::fstream f;
+    f.open("./ReciveMap"+ std::to_string(NO_)+".txt", std::ios::app);
+
     if (send->ReceiveMapPosition(map_position) != 1) {
+
+      f << std::to_string(map_position.global_x)<<","<<std::to_string(map_position.global_y)<<","<<map_position.score<<std::endl;
+
       std::cout << "Recive::x::" << map_position.global_x << std::endl;
       std::cout << "Recive::y::" << map_position.global_y << std::endl;
       std::cout << "Recive::score::" << map_position.score << std::endl;
@@ -647,7 +646,8 @@ void DataAnalysis::threadReciveMap() {
     } else {
       std::cout << "Recive::null!!!" << std::endl;
     }
-    usleep(100000);
+    f.close();
+    usleep(10000);
   }
 
 
@@ -669,4 +669,45 @@ void DataAnalysis::threadReciveMap() {
 //    recent_data_ = data;
 //    recent_data_time_ = GetSystemTime();
 
+}
+
+int DataAnalysis::findInit(double k){
+//  std::string mMapPath = "/home/whb/Downloads/data/testrun/map/keyframe";
+//  std::string num_pose_str = "/home/whb/Downloads/data/testrun/map/keyframe";
+
+  pcl::PointCloud<PointType6D>::Ptr key_pose;
+  key_pose.reset(new pcl::PointCloud<PointType6D>);
+  std::cout << "pcl::" << mMapPath + "/keypose.pcd" << std::endl;
+  if (pcl::io::loadPCDFile<PointType6D>(mMapPath + "/keypose.pcd", *key_pose) == -1) {
+    PCL_ERROR ("Couldn't read PCD file \n");
+    return -1;
+  }
+  pcl::PointCloud<PointType3D>::Ptr num_pose;
+  num_pose.reset(new pcl::PointCloud<PointType3D>);
+  for (int i = 0; i < key_pose->size()-1; ++i) {
+    if (pcl::io::loadPCDFile<PointType3D>(mMapPath + "/"+std::to_string(i)+".pcd", *num_pose) == -1) {
+      PCL_ERROR ("Couldn't read PCD file \n");
+    }
+//    long k ;
+    std::cout<<fixed<<std::setprecision(15)<<"key_pose::"<<key_pose->at(i).time<<std::endl;
+    if(key_pose->at(i).time>k){
+      std::cout<<fixed<<std::setprecision(15)<<"k::"<<k<<std::endl;
+      std::cout<<"no!!!"<<std::endl;
+      return -1;
+    }
+    if(key_pose->at(i+1).time >= k ){
+      std::cout<<fixed<<std::setprecision(15)<<"key_pose::"<<key_pose->at(i+1).time<<std::endl;
+      std::cout<<"Find::i_true::"<<i<<std::endl;
+      std::cout<<"Find::i_true::"<<i<<std::endl;
+      std::cout<<"Find::i_true::"<<i<<std::endl;
+      std::cout<<"Find::i_true::"<<i<<std::endl;
+      std::cout<<"Find::i_true::"<<i<<std::endl;
+      std::cout<<"Find::i_true::"<<i<<std::endl;
+      return i;
+    } else{
+      std::cout<<"i::"<<i<<std::endl;
+    }
+  }
+
+  return -1;
 }

@@ -35,7 +35,7 @@ endfunction()
 ###########################
 
 
-set(PROJECT_VERSION_MAJOR 0)
+set(PROJECT_VERSION_MAJOR 1)
 set(PROJECT_VERSION_MINOR 0)
 set(PROJECT_VERSION_PATCH 0)
 
@@ -117,6 +117,8 @@ file(GLOB SRC_FILES
         "${PROJECT_SOURCE_DIR}/common/common/*.cpp"
         #  "${PROJECT_SOURCE_DIR}/transform/*.cpp"
         )
+#add_executable(${PROJECT_NAME} ${SRC_FILES})
+
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
 target_link_libraries(${PROJECT_NAME}

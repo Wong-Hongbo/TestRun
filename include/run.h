@@ -32,6 +32,7 @@ private:
 
 public:
     std::string folder_offline_{};
+    std::string map_path_{};
 
 private:
   std::vector<std::string> folders_offline_{}; //分包后数据
